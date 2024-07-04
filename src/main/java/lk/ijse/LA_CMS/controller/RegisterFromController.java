@@ -8,11 +8,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lk.ijse.LA_CMS.DAO.custom.RegisterDAO;
 import lk.ijse.LA_CMS.DAO.custom.impl.RegisterDAOImpl;
 import lk.ijse.LA_CMS.Entity.User;
 import lk.ijse.LA_CMS.util.Regex;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class RegisterFromController {
 
@@ -31,6 +33,7 @@ public class RegisterFromController {
     @FXML
     private TextField userName;
 
+    RegisterDAO registerDAO=new RegisterDAOImpl();
     public void initialize(){
         employeeID.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -57,7 +60,7 @@ public class RegisterFromController {
     }
 
     @FXML
-    void registerOnAction(ActionEvent event) {
+    void registerOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String eid = employeeID.getText();
         String uid = userId.getText();
         String uname = userName.getText();
@@ -65,8 +68,7 @@ public class RegisterFromController {
 
         User user=new User(uid,eid,uname,pw);
         if(isValied()){
-            RegisterDAOImpl register=new RegisterDAOImpl();
-            register.saveUser(user);
+            registerDAO.save(user);
 
         }else{
             new Alert(Alert.AlertType.ERROR, "Something Happened!").show();
