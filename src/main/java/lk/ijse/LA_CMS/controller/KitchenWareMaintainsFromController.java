@@ -113,7 +113,6 @@ public class KitchenWareMaintainsFromController {
         try {
             String currentId = kitchenWareDAO.currentId();
             String nextId = nextId(currentId);
-
             kmId.setText(nextId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
