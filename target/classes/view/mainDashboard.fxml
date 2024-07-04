@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainDashboard" prefHeight="650.0" prefWidth="1275.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.buddiescafe.controller.MainDashboardFromController">
+   <children>
+      <ImageView fitHeight="168.0" fitWidth="366.0" layoutX="995.0" layoutY="481.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/underbg.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="168.0" fitWidth="540.0" layoutX="721.0" layoutY="482.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/underbg.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="181.0" fitWidth="310.0" layoutX="422.0" layoutY="469.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/underbg.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="210.0" fitWidth="375.0" layoutX="73.0" layoutY="440.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/underbg.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="subDashboard" layoutX="237.0" layoutY="27.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <AnchorPane layoutX="22.0" layoutY="127.0" prefHeight="450.0" prefWidth="300.0" style="-fx-background-color: #000000;">
+               <children>
+                  <ImageView fitHeight="450.0" fitWidth="300.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/1.jpg" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="12.0" layoutY="25.0" prefHeight="95.0" prefWidth="280.0" text="TOP PERFORMANCE" textFill="WHITE">
+                     <font>
+                        <Font name="Dhurjati" size="35.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="three" layoutX="17.0" layoutY="259.0" prefHeight="52.0" prefWidth="273.0" text="Cappucino" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="second" layoutX="17.0" layoutY="200.0" prefHeight="52.0" prefWidth="273.0" text="Avacado Smoothi" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="first" layoutX="16.0" layoutY="128.0" prefHeight="52.0" prefWidth="273.0" text="Chocolate Ice Coffee" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="three1" layoutX="19.0" layoutY="312.0" prefHeight="52.0" prefWidth="273.0" text="Seafood" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="three11" layoutX="18.0" layoutY="352.0" prefHeight="52.0" prefWidth="262.0" text="ice cream" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="351.0" layoutY="31.0" prefHeight="450.0" prefWidth="300.0" style="-fx-background-color: #000000;">
+               <children>
+                  <ImageView fitHeight="450.0" fitWidth="300.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/2.jpg" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="date" layoutX="12.0" layoutY="81.0" prefHeight="95.0" prefWidth="280.0" text="DATE" textFill="WHITE">
+                     <font>
+                        <Font name="Dhurjati" size="35.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="time" layoutX="19.0" layoutY="214.0" prefHeight="52.0" prefWidth="273.0" text="TIME" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="675.0" layoutY="78.0" prefHeight="450.0" prefWidth="300.0" style="-fx-background-color: #000000;">
+               <children>
+                  <ImageView fitHeight="450.0" fitWidth="300.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/3.jpg" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="14.0" layoutY="62.0" prefHeight="326.0" prefWidth="280.0" text="Brewing Efficiency with a SmileBuddies Cafe isn't just about delicious coffee and good vibes, it's about creating a seamless experience for both staff and customers. Our innovative cafe management system is like a secret ingredient, simmering behind the scenes, ensuring smooth operations and even happier interactions. " textFill="#e4e4e4" wrapText="true">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children></AnchorPane>
+      <AnchorPane layoutY="57.0" prefHeight="593.0" prefWidth="126.0" style="-fx-background-color: #1a120b;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1149.0" AnchorPane.topAnchor="57.0">
+         <children>
+            <VBox layoutY="14.0" prefHeight="593.0" prefWidth="208.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <JFXButton fx:id="employee" layoutX="10.0" layoutY="530.0" onAction="#employeeOnAction" prefHeight="65.0" prefWidth="208.0" text="EMPLOYEE" textAlignment="RIGHT" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/employe.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="supplier" layoutX="10.0" layoutY="10.0" onAction="#supplierOnAction" prefHeight="65.0" prefWidth="208.0" text="SUPPLIER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/supplier.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="order" layoutX="10.0" layoutY="75.0" onAction="#orderOnAction" prefHeight="65.0" prefWidth="208.0" text=" ORDERS" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/orders.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="inventoryDetail" layoutX="10.0" layoutY="140.0" onAction="#inventoryOnAction" prefHeight="65.0" prefWidth="208.0" text="INVENTORY" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/menu.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="menu" layoutX="10.0" layoutY="205.0" onAction="#menuOnAction" prefHeight="65.0" prefWidth="208.0" text=" MENU" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/inventory.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="kitchenware" layoutX="10.0" layoutY="270.0" onAction="#kitchenwareOnAction" prefHeight="65.0" prefWidth="208.0" text="KITCHENWARE" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/kitchenWare.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="maintain" layoutX="10.0" layoutY="335.0" onAction="#maintainOnAction" prefHeight="65.0" prefWidth="208.0" text="MAINTAINS" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/maintains.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="logout" layoutX="10.0" layoutY="530.0" onAction="#logoutOnAction" prefHeight="65.0" prefWidth="208.0" text="Log Out" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/logout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <JFXButton fx:id="home" layoutX="-1.0" layoutY="10.0" onAction="#homeOnAction" prefHeight="39.0" prefWidth="126.0" text="HOME" textFill="#1a120b">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="28.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/home.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+   </children>
+</AnchorPane>
