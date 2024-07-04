@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootNode" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.buddiescafe.controller.InventorySupplierDetailFromController">
+<AnchorPane fx:id="rootNode" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.LA_CMS.controller.InventorySupplierDetailFromController">
    <children>
       <Label layoutX="20.0" layoutY="24.0" text="INVENTORY" textFill="#2c3e50">
          <font>

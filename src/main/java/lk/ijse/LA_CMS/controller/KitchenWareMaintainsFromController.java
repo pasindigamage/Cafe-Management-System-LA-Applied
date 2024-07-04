@@ -12,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.LA_CMS.DAO.custom.KitchenWareDAO;
+import lk.ijse.LA_CMS.DAO.custom.KitchenWareMaintainDAO;
 import lk.ijse.LA_CMS.Entity.KitchenWare;
 import lk.ijse.LA_CMS.Entity.KitchenWareMaintains;
 import lk.ijse.LA_CMS.DAO.custom.impl.KitchenWareMaintainDAOImpl;
@@ -81,6 +82,7 @@ public class KitchenWareMaintainsFromController {
     @FXML
     private JFXButton updateKitchenWareMaintains;
 
+    KitchenWareMaintainDAO kitchenWareMaintainDAO=new KitchenWareMaintainDAOImpl();
     KitchenWareDAO kitchenWareDAO=new KitchenWareDAOImpl();
     public void initialize() throws ClassNotFoundException {
         setDate();
@@ -109,7 +111,7 @@ public class KitchenWareMaintainsFromController {
     }
     private void loadNextOrderId() throws ClassNotFoundException {
         try {
-            String currentId = KitchenWareMaintainDAOImpl.currentId();
+            String currentId = kitchenWareDAO.currentId();
             String nextId = nextId(currentId);
 
             kmId.setText(nextId);
@@ -140,7 +142,7 @@ public class KitchenWareMaintainsFromController {
         ObservableList<KitchenWareMaintains> obList = FXCollections.observableArrayList();
 
         try {
-            List<KitchenWareMaintains> kitchenWareMaintainsList = KitchenWareMaintainDAOImpl.getAll();
+            List<KitchenWareMaintains> kitchenWareMaintainsList = kitchenWareMaintainDAO.getAll();
             for (KitchenWareMaintains kitchenWareMaintains : kitchenWareMaintainsList) {
                 KitchenWareMaintains tm = new KitchenWareMaintains(
                         kitchenWareMaintains.getId(),
@@ -170,7 +172,7 @@ public class KitchenWareMaintainsFromController {
         KitchenWareMaintains kitchenWareMaintains = new KitchenWareMaintains(idText,kitchenWareIdValue,descriptionText,dateText,amountText);
 
         try {
-            boolean isSaved = KitchenWareMaintainDAOImpl.save(kitchenWareMaintains);
+            boolean isSaved = kitchenWareMaintainDAO.save(kitchenWareMaintains);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "KitchenWare Maintain is Saved!").show();
                 loadNextOrderId();
@@ -204,7 +206,7 @@ public class KitchenWareMaintainsFromController {
         String id = kmId.getText();
 
         try {
-            boolean isDeleted = KitchenWareMaintainDAOImpl.delete(id);
+            boolean isDeleted = kitchenWareMaintainDAO.delete(id);
             if (isDeleted) {
                 KitchenWareMaintains kitchenWareMaintains = (KitchenWareMaintains) tblOrderCart.getSelectionModel().getSelectedItem();
                 if (kitchenWareMaintains != null) {
@@ -235,7 +237,7 @@ public class KitchenWareMaintainsFromController {
         KitchenWareMaintains kitchenWareMaintains = new KitchenWareMaintains(idText,kitchenWareIdValue,descriptionText,dateText,amountText);
 
         try {
-            boolean isUpdated = KitchenWareMaintainDAOImpl.update(kitchenWareMaintains);
+            boolean isUpdated = kitchenWareMaintainDAO.update(kitchenWareMaintains);
             if (isUpdated) {
                 KitchenWareMaintains selectedItem = (KitchenWareMaintains) tblOrderCart.getSelectionModel().getSelectedItem();
                 if (selectedItem != null) {

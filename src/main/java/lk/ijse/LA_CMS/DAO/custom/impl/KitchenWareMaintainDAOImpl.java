@@ -13,7 +13,7 @@ import java.util.List;
 
 public class KitchenWareMaintainDAOImpl implements KitchenWareMaintainDAO {
 
-    public static boolean save(KitchenWareMaintains kitchenWareMaintains) throws SQLException, ClassNotFoundException {
+    public boolean save(KitchenWareMaintains kitchenWareMaintains) throws SQLException, ClassNotFoundException {
         String sql ="INSERT INTO kitchenWareMaintain VALUES(?, ?, ?, ?, ?)";
         PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
         pstm.setObject(1, kitchenWareMaintains.getId());
@@ -25,7 +25,7 @@ public class KitchenWareMaintainDAOImpl implements KitchenWareMaintainDAO {
         return pstm.executeUpdate() > 0;
     }
 
-    public static boolean delete(String id) throws SQLException, ClassNotFoundException {
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
         String sql = "DELETE FROM kitchenWareMaintain WHERE id = ?";
         PreparedStatement pstm = DbConnection.getInstance().getConnection()
                 .prepareStatement(sql);
@@ -35,7 +35,12 @@ public class KitchenWareMaintainDAOImpl implements KitchenWareMaintainDAO {
         return pstm.executeUpdate() > 0;
     }
 
-    public static boolean update(KitchenWareMaintains kitchenWareMaintains) throws SQLException, ClassNotFoundException {
+    @Override
+    public KitchenWareMaintains searchByDescription(String id) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    public boolean update(KitchenWareMaintains kitchenWareMaintains) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE kitchenWareMaintain set kitchenWareId = ?, description = ?, amount = ? where id =? ";
         PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
 
@@ -47,7 +52,7 @@ public class KitchenWareMaintainDAOImpl implements KitchenWareMaintainDAO {
 
     }
 
-    public static List<KitchenWareMaintains> getAll() throws SQLException, ClassNotFoundException {
+    public List<KitchenWareMaintains> getAll() throws SQLException, ClassNotFoundException {
         String sql = "select * from kitchenWareMaintain";
         PreparedStatement pstm = DbConnection.getInstance().getConnection()
                 .prepareStatement(sql);
@@ -68,7 +73,17 @@ public class KitchenWareMaintainDAOImpl implements KitchenWareMaintainDAO {
         return kitchenWareMaintainsList;
     }
 
-    public static String currentId() throws SQLException, ClassNotFoundException {
+    @Override
+    public KitchenWareMaintains searchByCode(String code) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public List<String> getIds() throws SQLException, ClassNotFoundException {
+        return List.of();
+    }
+
+    public String currentId() throws SQLException, ClassNotFoundException {
         String sql = "SELECT id FROM kitchenWareMaintain ORDER BY id desc LIMIT 1";
 
         try (Connection connection = DbConnection.getInstance().getConnection();
