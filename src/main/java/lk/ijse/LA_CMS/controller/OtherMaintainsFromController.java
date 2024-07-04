@@ -13,6 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.LA_CMS.DAO.custom.OtherMaintainDAO;
 import lk.ijse.LA_CMS.Entity.OtherMaintains;
 import lk.ijse.LA_CMS.DAO.custom.impl.OtherMaintainDAOImpl;
 import lk.ijse.LA_CMS.util.Regex;
@@ -76,7 +77,8 @@ public class OtherMaintainsFromController {
     @FXML
     private JFXButton updateOtherMaintains;
 
-    public void initialize() {
+    OtherMaintainDAO otherMaintainDAO=new OtherMaintainDAOImpl();
+    public void initialize() throws ClassNotFoundException {
         setCellValueFactory();
         loadCustomerTable();
         setDate();
@@ -98,9 +100,9 @@ public class OtherMaintainsFromController {
         });
     }
 
-    private void loadNextOrderId() {
+    private void loadNextOrderId() throws ClassNotFoundException {
         try {
-            String currentId = OtherMaintainDAOImpl.currentId();
+            String currentId = otherMaintainDAO.currentId();
             String nextId = nextId(currentId);
 
             omId.setText(nextId);
@@ -129,11 +131,11 @@ public class OtherMaintainsFromController {
         Regex.setTextColor(lk.ijse.LA_CMS.util.TextField.amount,amount);
     }
 
-    private void loadCustomerTable() {
+    private void loadCustomerTable() throws ClassNotFoundException {
         ObservableList<OtherMaintains> obList = FXCollections.observableArrayList();
 
         try {
-            List<OtherMaintains> otherMaintainsList = OtherMaintainDAOImpl.getAll();
+            List<OtherMaintains> otherMaintainsList = otherMaintainDAO.getAll();
             for (OtherMaintains otherMaintains : otherMaintainsList) {
                 OtherMaintains tm = new OtherMaintains(
                         otherMaintains.getId(),
@@ -160,7 +162,7 @@ public class OtherMaintainsFromController {
     }
 
     @FXML
-    void btnAddOnAction(ActionEvent event) {
+    void btnAddOnAction(ActionEvent event) throws ClassNotFoundException {
         String idText = omId.getText();
         String descriptionText = omDescription.getText();
         Date date = Date.valueOf(LocalDate.now());
@@ -169,7 +171,7 @@ public class OtherMaintainsFromController {
         OtherMaintains otherMaintains = new OtherMaintains(idText,descriptionText,date,amountText);
 
         try {
-            boolean isSaved = OtherMaintainDAOImpl.save(otherMaintains);
+            boolean isSaved = otherMaintainDAO.save(otherMaintains);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintain is Saved!").show();
                 loadNextOrderId();
@@ -203,11 +205,11 @@ public class OtherMaintainsFromController {
     }
 
     @FXML
-    void btnDeleteOnAction(ActionEvent event) {
+    void btnDeleteOnAction(ActionEvent event) throws ClassNotFoundException {
         String id = omId.getText();
 
         try {
-            boolean isDeleted = OtherMaintainDAOImpl.delete(id);
+            boolean isDeleted = otherMaintainDAO.delete(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintain is Removed!").show();
                 loadCustomerTable();
@@ -219,7 +221,7 @@ public class OtherMaintainsFromController {
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) {
+    void btnUpdateOnAction(ActionEvent event) throws ClassNotFoundException {
         String idText = omId.getText();
         String descriptionText = omDescription.getText();
         Date date = Date.valueOf(LocalDate.now());
@@ -228,7 +230,7 @@ public class OtherMaintainsFromController {
         OtherMaintains otherMaintains = new OtherMaintains(idText,descriptionText,date,amountText);
 
         try {
-            boolean isUpdated = OtherMaintainDAOImpl.update(otherMaintains);
+            boolean isUpdated = otherMaintainDAO.update(otherMaintains);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintain is Updated!").show();
                 loadCustomerTable();

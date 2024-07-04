@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OtherMaintainDAOImpl implements OtherMaintainDAO {
-    public static boolean save(OtherMaintains otherMaintains) throws SQLException {
+    public boolean save(OtherMaintains otherMaintains) throws SQLException {
         String sql ="INSERT INTO otherMaintain VALUES(?, ?, ?, ?)";
         PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
         pstm.setObject(1, otherMaintains.getId());
@@ -20,7 +20,7 @@ public class OtherMaintainDAOImpl implements OtherMaintainDAO {
         return pstm.executeUpdate() > 0;
     }
 
-    public static boolean update(OtherMaintains otherMaintains) throws SQLException {
+    public boolean update(OtherMaintains otherMaintains) throws SQLException {
         String sql ="UPDATE otherMaintain set description = ?, date = ?, amount = ? where id =? ";
         PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
 
@@ -33,7 +33,7 @@ public class OtherMaintainDAOImpl implements OtherMaintainDAO {
 
     }
 
-    public static boolean delete(String id) throws SQLException {
+    public boolean delete(String id) throws SQLException {
         String sql = "DELETE FROM otherMaintain WHERE id = ?";
         PreparedStatement pstm = DbConnection.getInstance().getConnection()
                 .prepareStatement(sql);
@@ -44,7 +44,12 @@ public class OtherMaintainDAOImpl implements OtherMaintainDAO {
 
     }
 
-    public static List<OtherMaintains> getAll() throws SQLException {
+    @Override
+    public OtherMaintains searchByDescription(String id) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    public List<OtherMaintains> getAll() throws SQLException {
         String sql = "SELECT * FROM otherMaintain";
         PreparedStatement pstm = DbConnection.getInstance().getConnection()
                 .prepareStatement(sql);
@@ -65,7 +70,17 @@ public class OtherMaintainDAOImpl implements OtherMaintainDAO {
 
     }
 
-    public static String currentId() throws SQLException {
+    @Override
+    public OtherMaintains searchByCode(String code) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public List<String> getIds() throws SQLException, ClassNotFoundException {
+        return List.of();
+    }
+
+    public String currentId() throws SQLException {
         String sql = "SELECT id FROM otherMaintain ORDER BY id desc LIMIT 1";
 
         try (Connection connection = DbConnection.getInstance().getConnection();

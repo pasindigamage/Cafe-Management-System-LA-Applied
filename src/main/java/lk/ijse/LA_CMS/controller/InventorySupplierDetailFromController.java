@@ -320,7 +320,7 @@ public class InventorySupplierDetailFromController {
     void cmbSupOnAction(ActionEvent event) throws ClassNotFoundException {
         String sid = cmbISupplierId.getValue();
         try {
-            Supplier supplier = supplierDAO.searchByCode(sid);
+            Supplier supplier = supplierDAO.searchByDescription(sid);
             if (supplier != null) {
                 lblsId.setText(supplier.getId());
             }

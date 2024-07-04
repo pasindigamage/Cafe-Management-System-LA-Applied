@@ -8,9 +8,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class OrdersDAOImpl implements OrdersDAO {
-    public static String currentId() throws SQLException {
+    public  String currentId() throws SQLException {
         String sql = "SELECT id FROM Orders ORDER BY id desc LIMIT 1";
 
         try (Connection connection = DbConnection.getInstance().getConnection();
@@ -24,7 +25,7 @@ public class OrdersDAOImpl implements OrdersDAO {
         }
     }
 
-    public static boolean save(Order order) throws SQLException {
+    public boolean save(Order order) throws SQLException {
         String sql = "INSERT INTO Orders  VALUES (?, ?, ?, ?)";
         try (Connection connection = DbConnection.getInstance().getConnection();
              PreparedStatement pstm = connection.prepareStatement(sql)) {
@@ -35,5 +36,35 @@ public class OrdersDAOImpl implements OrdersDAO {
 
             return pstm.executeUpdate() > 0;
         }
+    }
+
+    @Override
+    public boolean update(Order dto) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public Order searchByDescription(String id) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public List<Order> getAll() throws SQLException, ClassNotFoundException {
+        return List.of();
+    }
+
+    @Override
+    public Order searchByCode(String code) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public List<String> getIds() throws SQLException, ClassNotFoundException {
+        return List.of();
     }
 }

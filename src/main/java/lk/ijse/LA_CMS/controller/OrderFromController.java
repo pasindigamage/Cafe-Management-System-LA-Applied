@@ -12,6 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.LA_CMS.DAO.custom.OrdersDAO;
+import lk.ijse.LA_CMS.DAO.custom.PlaceOrderDAO;
 import lk.ijse.LA_CMS.DAO.custom.impl.FoodItemsDAOImpl;
 import lk.ijse.LA_CMS.DAO.custom.impl.OrdersDAOImpl;
 import lk.ijse.LA_CMS.DAO.custom.impl.PlaceOrderDAOImpl;
@@ -95,8 +97,10 @@ public class OrderFromController {
 
     private double netTotal;
 
+    OrdersDAO ordersDAO=new OrdersDAOImpl();
+    PlaceOrderDAO placeOrderDAO=new PlaceOrderDAOImpl();
     FoodItemsDAOImpl foodItemsDAO=new FoodItemsDAOImpl();
-    public void initialize(){
+    public void initialize() throws ClassNotFoundException {
         setDate();
         getFoodItems();
         loadNextOrderId();
@@ -106,9 +110,9 @@ public class OrderFromController {
 
     }
 
-    private void loadNextOrderId() {
+    private void loadNextOrderId() throws ClassNotFoundException {
         try {
-            String currentId = OrdersDAOImpl.currentId();
+            String currentId = ordersDAO.currentId();
             String nextId = nextId(currentId);
 
             lblOrderId.setText(nextId);
@@ -255,7 +259,7 @@ public class OrderFromController {
             odList.add(od);
         }
         PlaceOrder po = new PlaceOrder(order, odList);
-        boolean isPlaced = PlaceOrderDAOImpl.placeOrder(po); //  OrdersRepo.save(order);
+        boolean isPlaced = placeOrderDAO.placeOrder(po); //  OrdersRepo.save(order);
 
         if(isPlaced) {
             printBill();
