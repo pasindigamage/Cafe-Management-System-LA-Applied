@@ -1,8 +1,8 @@
 package lk.ijse.LA_CMS.DAO.custom.impl;
 
 import lk.ijse.LA_CMS.DAO.custom.KitchenWareDAO;
-import lk.ijse.LA_CMS.db.DbConnection;
 import lk.ijse.LA_CMS.Entity.KitchenWare;
+import lk.ijse.LA_CMS.db.DbConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
