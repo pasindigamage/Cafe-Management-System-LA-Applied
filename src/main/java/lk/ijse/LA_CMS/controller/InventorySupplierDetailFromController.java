@@ -180,10 +180,8 @@ public class InventorySupplierDetailFromController {
                         inventorySupplierDetail.getDate()
 
                 );
-
                 obList.add(tm);
             }
-
             tblOrderCart.setItems(obList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
