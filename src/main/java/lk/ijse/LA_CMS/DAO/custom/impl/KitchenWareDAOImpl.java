@@ -119,8 +119,4 @@ public class KitchenWareDAOImpl implements KitchenWareDAO {
             return null;
         }
     }
-
-
-
-
 }
