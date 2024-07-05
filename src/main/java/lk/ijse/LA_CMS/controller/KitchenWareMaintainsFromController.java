@@ -194,6 +194,7 @@ public class KitchenWareMaintainsFromController {
     }
 
     private void clearFields() throws ClassNotFoundException {
+        lblKId.setText("");
         kmDescription.setText("");
         amount.setText("");
         cmbIKitchenWareId.setValue("");

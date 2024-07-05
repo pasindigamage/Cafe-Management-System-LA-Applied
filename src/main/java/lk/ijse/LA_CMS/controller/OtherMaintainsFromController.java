@@ -176,6 +176,7 @@ public class OtherMaintainsFromController {
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintain is Saved!").show();
                 loadNextOrderId();
                 loadCustomerTable();
+                clearFields();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
