@@ -111,7 +111,7 @@ public class KitchenWareMaintainsFromController {
     }
     private void loadNextOrderId() throws ClassNotFoundException {
         try {
-            String currentId = kitchenWareDAO.currentId();
+            String currentId = kitchenWareMaintainDAO.currentId();
             String nextId = nextId(currentId);
             kmId.setText(nextId);
         } catch (SQLException e) {
