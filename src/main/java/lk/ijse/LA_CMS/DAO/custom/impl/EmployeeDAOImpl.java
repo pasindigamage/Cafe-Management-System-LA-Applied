@@ -33,28 +33,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     public Employee searchByCode(String id) throws SQLException {
-        ResultSet resultSet=SQLUtil.execute(("SELECT * FROM Employee WHERE id = ?"),id,"");
-        /*String sql = "SELECT * FROM Employee WHERE id = ?";
-        //PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        pstm.setObject(1, id);
-        ResultSet resultSet = pstm.executeQuery();
-
-
-        Employee employee = null;
-
-        if (resultSet.next()) {
-            String eid = resultSet.getString(1);
-            String position = resultSet.getString(2);
-            String name = resultSet.getString(3);
-            String address = resultSet.getString(4);
-            String email = resultSet.getString(5);
-            String contact = resultSet.getString(6);
-
-            employee = new Employee(eid, position, name, address, email, contact);
-        }
-*/
+        ResultSet resultSet=SQLUtil.execute(("SELECT * FROM Employee WHERE id = ?"),id);
         resultSet.next();
         return new Employee(id+"",
                 resultSet.getString("name"),resultSet.getString("position"),
@@ -63,35 +42,21 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     public List<Employee> getAll() throws SQLException {
-        String sql = "SELECT * FROM Employee";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
 
         List<Employee> employeeList = new ArrayList<>();
-        while (resultSet.next()) {
-            String eid = resultSet.getString(1);
-            String position = resultSet.getString(2);
-            String name = resultSet.getString(3);
-            String address = resultSet.getString(4);
-            String email = resultSet.getString(5);
-            String contact = resultSet.getString(6);
-
-            Employee employee = new Employee(eid, position, name, address, email, contact);
+        ResultSet resultSet=SQLUtil.execute("SELECT * FROM Employee");
+        while (resultSet.next()) {Employee employee=new Employee(resultSet.getString("id"),
+                resultSet.getString("name"),
+            resultSet.getString("position"),resultSet.getString("address"),
+                resultSet.getString("email"),resultSet.getString("contact"));
             employeeList.add(employee);
         }
         return employeeList;
     }
 
     public List<String> getIds() throws SQLException {
-        String sql = "SELECT id FROM Employee";
-
-        Connection connection = DbConnection.getInstance().getConnection();
-        ResultSet resultSet = connection.prepareStatement(sql).executeQuery();
-
         List<String> idList = new ArrayList<>();
-
+        ResultSet resultSet=SQLUtil.execute(("SELECT id FROM Employee"));
         while (resultSet.next()) {
             idList.add(resultSet.getString(1));
         }
@@ -99,17 +64,10 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     public String currentId() throws SQLException {
-
-        String sql = "SELECT id FROM Employee ORDER BY id desc LIMIT 1";
-
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql);
-             ResultSet resultSet = pstm.executeQuery()) {
-
+                ResultSet resultSet=SQLUtil.execute("SELECT id FROM Employee ORDER BY id desc LIMIT 1");
             if (resultSet.next()) {
                 return resultSet.getString(1);
             }
             return null;
-        }
     }
 }
