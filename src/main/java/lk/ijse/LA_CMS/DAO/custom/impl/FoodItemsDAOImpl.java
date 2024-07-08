@@ -1,5 +1,6 @@
 package lk.ijse.LA_CMS.DAO.custom.impl;
 
+import lk.ijse.LA_CMS.DAO.SQLUtil;
 import lk.ijse.LA_CMS.DAO.custom.FoodItemsDAO;
 import lk.ijse.LA_CMS.db.DbConnection;
 import lk.ijse.LA_CMS.Entity.FoodItems;
@@ -14,38 +15,17 @@ import java.util.List;
 
 public class FoodItemsDAOImpl implements FoodItemsDAO {
     public boolean save(FoodItems foodItems) throws SQLException {
-
-        String sql ="INSERT INTO FoodItems VALUES(?, ?, ?, ?)";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-        pstm.setObject(1, foodItems.getId());
-        pstm.setObject(2, foodItems.getDescription());
-        pstm.setObject(3, foodItems.getUnitPrice());
-        pstm.setObject(4, foodItems.getQtyOnHand());
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute(("INSERT INTO FoodItems VALUES(?, ?, ?, ?)"),
+                foodItems.getId(),foodItems.getDescription(),foodItems.getUnitPrice(),foodItems.getQtyOnHand());
     }
 
     public boolean update(FoodItems foodItems) throws SQLException {
-        String sql ="UPDATE FoodItems set description = ?, unitPrice = ?, QtyOnHand = ? where id =? ";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-
-        pstm.setObject(1, foodItems.getDescription());
-        pstm.setObject(2, foodItems.getUnitPrice());
-        pstm.setObject(3, foodItems.getQtyOnHand());
-        pstm.setObject(4, foodItems.getId());
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute(("UPDATE FoodItems set description = ?, unitPrice = ?, QtyOnHand = ? where id =? "),
+                foodItems.getDescription(),foodItems.getUnitPrice(),foodItems.getQtyOnHand(),foodItems.getId());
     }
 
     public boolean delete(String id) throws SQLException {
-        String sql = "DELETE FROM FoodItems WHERE id = ?";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        pstm.setObject(1, id);
-
-        return pstm.executeUpdate() > 0;
-
+        return SQLUtil.execute(("DELETE FROM FoodItems WHERE id = ?"),id);
     }
 
     public FoodItems searchByDescription(String id) throws SQLException {

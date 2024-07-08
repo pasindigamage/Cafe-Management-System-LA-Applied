@@ -1,5 +1,6 @@
 package lk.ijse.LA_CMS.DAO.custom.impl;
 
+import lk.ijse.LA_CMS.DAO.SQLUtil;
 import lk.ijse.LA_CMS.DAO.custom.EmployeeDAO;
 import lk.ijse.LA_CMS.db.DbConnection;
 import lk.ijse.LA_CMS.Entity.Employee;
@@ -13,40 +14,17 @@ import java.util.List;
 
 public class EmployeeDAOImpl implements EmployeeDAO{
     public boolean save(Employee employee) throws SQLException {
-        String sql = "INSERT INTO Employee VALUES(?, ?, ?, ?, ?, ?)";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-        pstm.setObject(1, employee.getId());
-        pstm.setObject(2, employee.getName());
-        pstm.setObject(3, employee.getPosition());
-        pstm.setObject(4, employee.getAddress());
-        pstm.setObject(5, employee.getEmail());
-        pstm.setObject(6, employee.getContact());
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute(("INSERT INTO Employee VALUES(?, ?, ?, ?, ?, ?)"),
+        employee.getId(),employee.getName(),employee.getPosition(),employee.getAddress(),employee.getEmail(),employee.getContact());
     }
 
     public boolean update(Employee employee) throws SQLException {
-        String sql = "UPDATE Employee set name = ?, position = ?, address = ?, email = ?, contact = ? where id =? ";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-
-        pstm.setObject(1, employee.getName());
-        pstm.setObject(2, employee.getPosition());
-        pstm.setObject(3, employee.getAddress());
-        pstm.setObject(4, employee.getEmail());
-        pstm.setObject(5, employee.getContact());
-        pstm.setObject(6, employee.getId());
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute(("UPDATE Employee set name = ?, position = ?, address = ?, email = ?, contact = ? where id =? "),
+        employee.getName(),employee.getPosition(),employee.getAddress(),employee.getEmail(),employee.getContact(),employee.getId());
     }
 
     public boolean delete(String id) throws SQLException {
-        String sql = "DELETE FROM Employee WHERE id = ?";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        pstm.setObject(1, id);
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute(("DELETE FROM Employee WHERE id = ?"),id);
     }
 
     @Override
@@ -55,12 +33,14 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     public Employee searchByCode(String id) throws SQLException {
-        String sql = "SELECT * FROM Employee WHERE id = ?";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
+        ResultSet resultSet=SQLUtil.execute(("SELECT * FROM Employee WHERE id = ?"),id,"");
+        /*String sql = "SELECT * FROM Employee WHERE id = ?";
+        //PreparedStatement pstm = DbConnection.getInstance().getConnection()
                 .prepareStatement(sql);
 
         pstm.setObject(1, id);
         ResultSet resultSet = pstm.executeQuery();
+
 
         Employee employee = null;
 
@@ -72,10 +52,14 @@ public class EmployeeDAOImpl implements EmployeeDAO{
             String email = resultSet.getString(5);
             String contact = resultSet.getString(6);
 
-
             employee = new Employee(eid, position, name, address, email, contact);
         }
-        return employee;
+*/
+        resultSet.next();
+        return new Employee(id+"",
+                resultSet.getString("name"),resultSet.getString("position"),
+                resultSet.getString("address"),resultSet.getString("email"),
+                resultSet.getString("contact"));
     }
 
     public List<Employee> getAll() throws SQLException {
@@ -115,6 +99,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     public String currentId() throws SQLException {
+
         String sql = "SELECT id FROM Employee ORDER BY id desc LIMIT 1";
 
         try (Connection connection = DbConnection.getInstance().getConnection();

@@ -117,7 +117,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <TextField fx:id="fooditemSearch" layoutX="784.0" layoutY="41.0" onAction="#IdSearchOnAction" prefHeight="26.0" prefWidth="147.0" promptText="Seacrch Here" />
+      <TextField fx:id="fooditemSearch" layoutX="784.0" layoutY="41.0" onAction="#IdSearchOnAction" prefHeight="26.0" prefWidth="147.0" promptText="Use Description" />
       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="904.0" layoutY="42.0" opacity="0.13" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/search-icon.png" />
