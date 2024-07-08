@@ -36,6 +36,7 @@ public class KitchenWareMaintainDAOImpl implements KitchenWareMaintainDAO {
     }
 
     public List<KitchenWareMaintains> getAll() throws SQLException, ClassNotFoundException {
+//        SQLUtil.execute("select * from kitchenWareMaintain");
         String sql = "select * from kitchenWareMaintain";
         PreparedStatement pstm = DbConnection.getInstance().getConnection()
                 .prepareStatement(sql);
@@ -67,17 +68,10 @@ public class KitchenWareMaintainDAOImpl implements KitchenWareMaintainDAO {
     }
 
     public String currentId() throws SQLException, ClassNotFoundException {
-
-        String sql = "SELECT id FROM kitchenWareMaintain ORDER BY id desc LIMIT 1";
-
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql);
-             ResultSet resultSet = pstm.executeQuery()) {
-
+        ResultSet resultSet=SQLUtil.execute("SELECT id FROM kitchenWareMaintain ORDER BY id desc LIMIT 1");
             if (resultSet.next()) {
                 return resultSet.getString(1);
             }
             return null;
         }
     }
-}

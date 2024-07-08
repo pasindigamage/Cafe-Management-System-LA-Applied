@@ -45,4 +45,11 @@ public List<KitchenWare> getAll() throws SQLException, ClassNotFoundException {
     }
     return kitchenWareList;
 }
-*/
+
+
+KitchenWareMaintains kitchenWareMaintains =
+                    new KitchenWareMaintains(resultSet.getString("id"),
+                            resultSet.getString("kitchenWareId"),resultSet.getString("description"),
+                            resultSet.getString("date"),resultSet.getString("amount"));
+
+ */

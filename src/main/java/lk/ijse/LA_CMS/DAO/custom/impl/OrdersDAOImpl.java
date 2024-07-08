@@ -12,23 +12,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class OrdersDAOImpl implements OrdersDAO {
-    public  String currentId() throws SQLException {
-        String sql = "SELECT id FROM Orders ORDER BY id desc LIMIT 1";
-
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql);
-             ResultSet resultSet = pstm.executeQuery()) {
-
-            if (resultSet.next()) {
-                return resultSet.getString(1);
-            }
-            return null;
-        }
-    }
-
-    public boolean save(Order order) throws SQLException {
-        return SQLUtil.execute(("INSERT INTO Orders  VALUES (?, ?, ?, ?)"),order.getId(),
-                order.getUId(),order.getDate(),order.getAmount());
+    @Override
+    public boolean save(Order dto) throws SQLException, ClassNotFoundException {
+        return false;
     }
 
     @Override
@@ -60,4 +46,19 @@ public class OrdersDAOImpl implements OrdersDAO {
     public List<String> getIds() throws SQLException, ClassNotFoundException {
         return List.of();
     }
-}
+
+    public  String currentId() throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT id FROM Orders ORDER BY id desc LIMIT 1");
+
+        /*String sql = "SELECT id FROM Orders ORDER BY id desc LIMIT 1";
+
+        try (Connection connection = DbConnection.getInstance().getConnection();
+             PreparedStatement pstm = connection.prepareStatement(sql);
+             ResultSet resultSet = pstm.executeQuery()) {
+*/
+            if (resultSet.next()) {
+                return resultSet.getString(1);
+            }
+            return null;
+        }
+    }
