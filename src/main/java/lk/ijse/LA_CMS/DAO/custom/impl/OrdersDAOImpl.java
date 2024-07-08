@@ -1,5 +1,6 @@
 package lk.ijse.LA_CMS.DAO.custom.impl;
 
+import lk.ijse.LA_CMS.DAO.SQLUtil;
 import lk.ijse.LA_CMS.DAO.custom.OrdersDAO;
 import lk.ijse.LA_CMS.db.DbConnection;
 import lk.ijse.LA_CMS.Entity.Order;
@@ -26,16 +27,8 @@ public class OrdersDAOImpl implements OrdersDAO {
     }
 
     public boolean save(Order order) throws SQLException {
-        String sql = "INSERT INTO Orders  VALUES (?, ?, ?, ?)";
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql)) {
-            pstm.setObject(1, order.getId());
-            pstm.setObject(2, order.getUId());
-            pstm.setObject(3, order.getDate());
-            pstm.setObject(4, order.getAmount());
-
-            return pstm.executeUpdate() > 0;
-        }
+        return SQLUtil.execute(("INSERT INTO Orders  VALUES (?, ?, ?, ?)"),order.getId(),
+                order.getUId(),order.getDate(),order.getAmount());
     }
 
     @Override

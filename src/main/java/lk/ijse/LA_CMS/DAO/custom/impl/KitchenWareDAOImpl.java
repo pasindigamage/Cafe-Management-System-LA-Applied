@@ -1,5 +1,6 @@
 package lk.ijse.LA_CMS.DAO.custom.impl;
 
+import lk.ijse.LA_CMS.DAO.SQLUtil;
 import lk.ijse.LA_CMS.DAO.custom.KitchenWareDAO;
 import lk.ijse.LA_CMS.Entity.KitchenWare;
 import lk.ijse.LA_CMS.db.DbConnection;
@@ -13,23 +14,13 @@ import java.util.List;
 
 public class KitchenWareDAOImpl implements KitchenWareDAO {
     public boolean save(KitchenWare kitchenWare) throws SQLException, ClassNotFoundException {
-        String sql ="INSERT INTO KitchenWare VALUES(?, ?, ?, ?)";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-        pstm.setObject(1, kitchenWare.getId());
-        pstm.setObject(2, kitchenWare.getSupplierId());
-        pstm.setObject(3, kitchenWare.getDescription());
-        pstm.setObject(4, kitchenWare.getQty());
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute(("INSERT INTO KitchenWare VALUES(?, ?, ?, ?)"),kitchenWare.getId(),
+                kitchenWare.getSupplierId(),kitchenWare.getDescription(),
+                kitchenWare.getQty());
     }
 
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        String sql = "DELETE FROM KitchenWare WHERE id = ?";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        pstm.setObject(1, id);
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute(("DELETE FROM KitchenWare WHERE id = ?"),id);
     }
 
     @Override
@@ -38,15 +29,8 @@ public class KitchenWareDAOImpl implements KitchenWareDAO {
     }
 
     public boolean update(KitchenWare kitchenWare) throws SQLException, ClassNotFoundException {
-        String sql = "UPDATE KitchenWare set supplierId = ?, description = ?,qty = ? where id =? ";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-
-        pstm.setObject(1, kitchenWare.getSupplierId());
-        pstm.setObject(2, kitchenWare.getDescription());
-        pstm.setObject(3, kitchenWare.getQty());
-        pstm.setObject(4, kitchenWare.getId());
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute(("UPDATE KitchenWare set supplierId = ?, description = ?,qty = ? where id =? "),
+                kitchenWare.getSupplierId(),kitchenWare.getDescription(),kitchenWare.getQty(),kitchenWare.getId());
     }
 
     public List<String> getIds() throws SQLException, ClassNotFoundException {

@@ -1,5 +1,6 @@
 package lk.ijse.LA_CMS.DAO.custom.impl;
 
+import lk.ijse.LA_CMS.DAO.SQLUtil;
 import lk.ijse.LA_CMS.DAO.custom.KitchenWareMaintainDAO;
 import lk.ijse.LA_CMS.db.DbConnection;
 import lk.ijse.LA_CMS.Entity.KitchenWareMaintains;
@@ -14,26 +15,14 @@ import java.util.List;
 public class KitchenWareMaintainDAOImpl implements KitchenWareMaintainDAO {
 
     public boolean save(KitchenWareMaintains kitchenWareMaintains) throws SQLException, ClassNotFoundException {
-        String sql ="INSERT INTO kitchenWareMaintain VALUES(?, ?, ?, ?, ?)";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-        pstm.setObject(1, kitchenWareMaintains.getId());
-        pstm.setObject(2, kitchenWareMaintains.getKitchenWareId());
-        pstm.setObject(3, kitchenWareMaintains.getDescription());
-        pstm.setObject(4, kitchenWareMaintains.getDate());
-        pstm.setObject(5, kitchenWareMaintains.getAmount());
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute(("INSERT INTO kitchenWareMaintain VALUES(?, ?, ?, ?, ?)"),
+                kitchenWareMaintains.getId(),kitchenWareMaintains.getKitchenWareId(),
+                kitchenWareMaintains.getDescription(),kitchenWareMaintains.getDate(),kitchenWareMaintains.getAmount());
     }
 
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        String sql = "DELETE FROM kitchenWareMaintain WHERE id = ?";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        pstm.setObject(1, id);
-
-        return pstm.executeUpdate() > 0;
-    }
+        return SQLUtil.execute(("DELETE FROM kitchenWareMaintain WHERE id = ?"),id);
+        }
 
     @Override
     public KitchenWareMaintains searchByDescription(String id) throws SQLException, ClassNotFoundException {
@@ -41,15 +30,9 @@ public class KitchenWareMaintainDAOImpl implements KitchenWareMaintainDAO {
     }
 
     public boolean update(KitchenWareMaintains kitchenWareMaintains) throws SQLException, ClassNotFoundException {
-        String sql = "UPDATE kitchenWareMaintain set kitchenWareId = ?, description = ?, amount = ? where id =? ";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-
-        pstm.setObject(1, kitchenWareMaintains.getKitchenWareId());
-        pstm.setObject(2, kitchenWareMaintains.getDescription());
-        pstm.setObject(3, kitchenWareMaintains.getAmount());
-        pstm.setObject(4, kitchenWareMaintains.getId());
-        return pstm.executeUpdate() > 0;
-
+      return SQLUtil.execute(("UPDATE kitchenWareMaintain set kitchenWareId = ?, description = ?, amount = ? where id =? "),
+              kitchenWareMaintains.getKitchenWareId(),kitchenWareMaintains.getDescription(),
+              kitchenWareMaintains.getAmount(),kitchenWareMaintains.getId());
     }
 
     public List<KitchenWareMaintains> getAll() throws SQLException, ClassNotFoundException {

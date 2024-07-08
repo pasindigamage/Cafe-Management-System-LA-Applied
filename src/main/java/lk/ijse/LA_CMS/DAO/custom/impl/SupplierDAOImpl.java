@@ -1,5 +1,6 @@
 package lk.ijse.LA_CMS.DAO.custom.impl;
 
+import lk.ijse.LA_CMS.DAO.SQLUtil;
 import lk.ijse.LA_CMS.DAO.custom.SupplierDAO;
 import lk.ijse.LA_CMS.db.DbConnection;
 import lk.ijse.LA_CMS.Entity.Supplier;
@@ -14,7 +15,10 @@ import java.util.List;
 public class SupplierDAOImpl implements SupplierDAO {
 
     public boolean save(Supplier supplier) throws SQLException {
-        String sql ="INSERT INTO Supplier VALUES(?, ?, ?, ?, ?, ?)";
+        return SQLUtil.execute(("INSERT INTO Supplier VALUES(?, ?, ?, ?, ?, ?)"),
+                supplier.getId(),supplier.getNic(),supplier.getName(),
+                supplier.getCompanyAddress(),supplier.getEmail(),supplier.getContact());
+        /*String sql ="INSERT INTO Supplier VALUES(?, ?, ?, ?, ?, ?)";
         PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
         pstm.setObject(1, supplier.getId());
         pstm.setObject(2, supplier.getNic());
@@ -23,11 +27,15 @@ public class SupplierDAOImpl implements SupplierDAO {
         pstm.setObject(5, supplier.getEmail());
         pstm.setObject(6, supplier.getContact());
 
-        return pstm.executeUpdate() > 0;
+        return pstm.executeUpdate() > 0;*/
     }
 
     public boolean update(Supplier supplier) throws SQLException {
-        String sql ="UPDATE Supplier set nic = ?, name = ?, companyAddress = ?, email = ?, contact = ? where id =? ";
+        return SQLUtil.execute(("UPDATE Supplier set nic = ?, name = ?, companyAddress = ?, " +
+                "email = ?, contact = ? where id =? "),
+                supplier.getNic(),supplier.getName(), supplier.getCompanyAddress(),
+                supplier.getEmail(),supplier.getContact(),supplier.getId());
+        /*String sql ="UPDATE Supplier set nic = ?, name = ?, companyAddress = ?, email = ?, contact = ? where id =? ";
         PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
 
         pstm.setObject(1, supplier.getNic());
@@ -37,18 +45,19 @@ public class SupplierDAOImpl implements SupplierDAO {
         pstm.setObject(5, supplier.getContact());
         pstm.setObject(6, supplier.getId());
 
-        return pstm.executeUpdate() > 0;
+        return pstm.executeUpdate() > 0;*/
     }
 
     public boolean delete(String id) throws SQLException {
-        String sql = "DELETE FROM Supplier WHERE id = ?";
+        return SQLUtil.execute(("DELETE FROM Supplier WHERE id = ?"),id);
+        /*String sql = "DELETE FROM Supplier WHERE id = ?";
         PreparedStatement pstm = DbConnection.getInstance().getConnection()
                 .prepareStatement(sql);
 
         pstm.setObject(1, id);
 
         return pstm.executeUpdate() > 0;
-
+*/
     }
 
     public Supplier searchByCode(String id) throws SQLException {
