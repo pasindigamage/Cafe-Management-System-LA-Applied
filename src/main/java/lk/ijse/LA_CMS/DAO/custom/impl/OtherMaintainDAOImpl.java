@@ -1,5 +1,6 @@
 package lk.ijse.LA_CMS.DAO.custom.impl;
 
+import lk.ijse.LA_CMS.DAO.SQLUtil;
 import lk.ijse.LA_CMS.DAO.custom.OtherMaintainDAO;
 import lk.ijse.LA_CMS.db.DbConnection;
 import lk.ijse.LA_CMS.Entity.OtherMaintains;
@@ -10,18 +11,16 @@ import java.util.List;
 
 public class OtherMaintainDAOImpl implements OtherMaintainDAO {
     public boolean save(OtherMaintains otherMaintains) throws SQLException {
-        String sql ="INSERT INTO otherMaintain VALUES(?, ?, ?, ?)";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-        pstm.setObject(1, otherMaintains.getId());
-        pstm.setObject(2, otherMaintains.getDescription());
-        pstm.setObject(3, otherMaintains.getDate());
-        pstm.setObject(4, otherMaintains.getAmount());
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute(("INSERT INTO otherMaintain VALUES(?, ?, ?, ?)"),
+                otherMaintains.getId(),otherMaintains.getDescription(),
+                otherMaintains.getDate(),otherMaintains.getAmount());
     }
 
     public boolean update(OtherMaintains otherMaintains) throws SQLException {
-        String sql ="UPDATE otherMaintain set description = ?, date = ?, amount = ? where id =? ";
+        return SQLUtil.execute(("UPDATE otherMaintain set description = ?, date = ?, amount = ? where id =? "),
+                otherMaintains.getDescription(),otherMaintains.getDate(),
+                otherMaintains.getAmount(),otherMaintains.getId());
+        /*String sql ="UPDATE otherMaintain set description = ?, date = ?, amount = ? where id =? ";
         PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
 
         pstm.setObject(1, otherMaintains.getDescription());
@@ -30,18 +29,11 @@ public class OtherMaintainDAOImpl implements OtherMaintainDAO {
         pstm.setObject(4, otherMaintains.getId());
 
         return pstm.executeUpdate() > 0;
-
+*/
     }
 
     public boolean delete(String id) throws SQLException {
-        String sql = "DELETE FROM otherMaintain WHERE id = ?";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        pstm.setObject(1, id);
-
-        return pstm.executeUpdate() > 0;
-
+        return SQLUtil.execute(("DELETE FROM otherMaintain WHERE id = ?"),id);
     }
 
     @Override

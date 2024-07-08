@@ -1,5 +1,6 @@
 package lk.ijse.LA_CMS.DAO.custom.impl;
 
+import lk.ijse.LA_CMS.DAO.SQLUtil;
 import lk.ijse.LA_CMS.DAO.custom.InventorySupplierDetailDAO;
 import lk.ijse.LA_CMS.db.DbConnection;
 import lk.ijse.LA_CMS.Entity.InventorySupplier;
@@ -11,6 +12,9 @@ import java.util.List;
 
 public class InventorySupplierDetailDAOImpl implements InventorySupplierDetailDAO {
     public boolean save(InventorySupplier inventoryDetail) throws SQLException {
+        return SQLUtil.execute(("INSERT INTO inventorySupplier VALUES(?, ?, ?)"),inventoryDetail.getSupplierId(),
+                inventoryDetail.getInventoryId(),inventoryDetail.getDate());
+        /*
         String sql = "INSERT INTO inventorySupplier VALUES(?, ?, ?)";
         try (Connection connection = DbConnection.getInstance().getConnection();
              PreparedStatement pstm = connection.prepareStatement(sql)) {
@@ -21,30 +25,22 @@ public class InventorySupplierDetailDAOImpl implements InventorySupplierDetailDA
             //  pstm.setDouble(5, inventoryDetail.getUnitPrice());  // Corrected to setDouble for unitPrice
             // pstm.setInt(6, inventoryDetail.getQty());
             return pstm.executeUpdate() > 0;
-        }
+        }*/
     }
 
-    public boolean update(InventorySupplier inventoryDetail) throws SQLException {
-        String sql = "UPDATE inventorySupplier SET supplierId = ?,  date = ? WHERE foodItemId = ?";
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql)) {
-            pstm.setString(1, inventoryDetail.getSupplierId());
-            pstm.setString(2, inventoryDetail.getInventoryId());
-            pstm.setDate(3, Date.valueOf(String.valueOf(inventoryDetail.getDate())));  // Assuming getDate returns LocalDate
-            // pstm.setDouble(4, inventoryDetail.getUnitPrice());  // Corrected to setDouble for unitPrice
-            // pstm.setInt(5, inventoryDetail.getQty());
-            //  pstm.setString(6, inventoryDetail.getId());
-            return pstm.executeUpdate() > 0;
-        }
+    @Override
+    public boolean update(InventorySupplier dto) throws SQLException, ClassNotFoundException {
+        return false;
     }
 
     public boolean delete(String id) throws SQLException {
-        String sql = "DELETE FROM inventorySupplier WHERE foodItemId = ?";
+        return SQLUtil.execute(("DELETE FROM inventorySupplier WHERE foodItemId = ?"),id);
+        /*String sql = "DELETE FROM inventorySupplier WHERE foodItemId = ?";
         try (Connection connection = DbConnection.getInstance().getConnection();
              PreparedStatement pstm = connection.prepareStatement(sql)) {
             pstm.setString(1, id);
             return pstm.executeUpdate() > 0;
-        }
+        }*/
     }
 
     public InventorySupplier searchByDate(String id) throws SQLException {

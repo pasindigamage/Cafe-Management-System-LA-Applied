@@ -35,7 +35,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TextField fx:id="sContact" layoutX="37.0" layoutY="371.0" onKeyReleased="#txtContactOnKeyReleased" prefHeight="33.0" prefWidth="195.0" promptText="+94 XXXXXXXXX" />
+      <TextField fx:id="sContact" layoutX="37.0" layoutY="371.0" onKeyReleased="#txtContactOnKeyReleased" prefHeight="33.0" prefWidth="195.0" promptText="eg:- 0773793891" />
       <Label layoutX="37.0" layoutY="353.0" text="Contact" textFill="#363232">
          <font>
             <Font name="System Bold" size="12.0" />

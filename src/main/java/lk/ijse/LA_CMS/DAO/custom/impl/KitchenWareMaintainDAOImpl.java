@@ -67,6 +67,7 @@ public class KitchenWareMaintainDAOImpl implements KitchenWareMaintainDAO {
     }
 
     public String currentId() throws SQLException, ClassNotFoundException {
+
         String sql = "SELECT id FROM kitchenWareMaintain ORDER BY id desc LIMIT 1";
 
         try (Connection connection = DbConnection.getInstance().getConnection();
