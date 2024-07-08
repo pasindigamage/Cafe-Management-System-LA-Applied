@@ -29,75 +29,34 @@ public class FoodItemsDAOImpl implements FoodItemsDAO {
     }
 
     public FoodItems searchByDescription(String id) throws SQLException {
-        String sql = "SELECT * FROM FoodItems WHERE description = ?";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        pstm.setObject(1, id);
-        ResultSet resultSet = pstm.executeQuery();
-
-        FoodItems foodItems = null;
-
-        if (resultSet.next()) {
-            String fid = resultSet.getString(1);
-            String description = resultSet.getString(2);
-            double amount = Double.valueOf(resultSet.getString(3));
-            int qty = Integer.parseInt(resultSet.getString(4));
-
-
-            foodItems = new FoodItems(fid,description,amount,qty);
-        }
-        return foodItems;
+        ResultSet resultSet=SQLUtil.execute(("SELECT * FROM FoodItems WHERE description = ?"),id);
+        resultSet.next();
+        return new FoodItems(resultSet.getString("id"),id+"",
+                resultSet.getDouble("unitPrice"),resultSet.getInt("qtyOnHand"));
     }
 
     public List<FoodItems> getAll() throws SQLException {
-        String sql = "SELECT * FROM FoodItems";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
-
         List<FoodItems> foodItemsList = new ArrayList<>();
+        ResultSet resultSet=SQLUtil.execute("SELECT * FROM FoodItems");
         while (resultSet.next()) {
-            String fid = resultSet.getString(1);
-            String description = resultSet.getString(2);
-            double amount = Double.parseDouble(resultSet.getString(3));
-            int qty = Integer.parseInt(resultSet.getString(4));
-
-            FoodItems foodItems = new FoodItems(fid,description,amount,qty);
+            FoodItems foodItems=new FoodItems(resultSet.getString("id"),
+                    resultSet.getString("description"),resultSet.getDouble("unitPrice"),
+                    resultSet.getInt("qtyOnHand"));
             foodItemsList.add(foodItems);
         }
         return foodItemsList;
     }
-
+//have a matter
     public FoodItems searchByCode(String foodItemDValue) throws SQLException {
-        String sql = "SELECT * FROM FoodItems WHERE description = ?";
-
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-        pstm.setObject(1, foodItemDValue);
-
-        ResultSet resultSet = pstm.executeQuery();
-        if(resultSet.next()) {
-            return new FoodItems(
-                    resultSet.getString(1),
-                    resultSet.getString(2),
-                    resultSet.getDouble(3),
-                    resultSet.getInt(4)
-            );
-        }
-        return null;
+        ResultSet resultSet=SQLUtil.execute(("SELECT * FROM FoodItems WHERE description = ?"),foodItemDValue);
+        resultSet.next();
+        return new FoodItems(resultSet.getString("id"),foodItemDValue+"",
+                resultSet.getDouble("unitPrice"),resultSet.getInt("qtyOnHand"));
     }
 
     public List<String> getIds() throws SQLException {
-        String sql = "SELECT description FROM FoodItems";
-
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
         List<String> IdList = new ArrayList<>();
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet=SQLUtil.execute("SELECT description FROM FoodItems");
 
         while(resultSet.next()) {
             IdList.add(resultSet.getString(1));
@@ -106,18 +65,11 @@ public class FoodItemsDAOImpl implements FoodItemsDAO {
     }
 
     public String currentId() throws SQLException {
-        String sql = "SELECT id FROM FoodItems ORDER BY id desc LIMIT 1";
-
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql);
-             ResultSet resultSet = pstm.executeQuery()) {
-
+        ResultSet resultSet=SQLUtil.execute("SELECT id FROM FoodItems ORDER BY id desc LIMIT 1");
             if (resultSet.next()) {
                 return resultSet.getString(1);
             }
             return null;
-        }
-
     }
 
     public static boolean update1(List<OrderDetail> odList) throws SQLException {
