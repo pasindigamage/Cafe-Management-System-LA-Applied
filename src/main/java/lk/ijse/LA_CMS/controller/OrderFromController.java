@@ -348,39 +348,4 @@ public class OrderFromController {
                 JasperFillManager.fillReport(jasperReport, null, DbConnection.getInstance().getConnection());
         JasperViewer.viewReport(jasperPrint,false);
     }
-    /*
-
-// .............Jasper report for Join Query
-
-
-SELECT Orders.id AS OrderID,
-       Orders.userId AS UserID,
-       Orders.date AS OrderDate,
-       Orders.Amount AS OrderAmount,
-       FoodItems.id AS FoodItemID,
-       FoodItems.description AS Description,
-       FoodItems.unitPrice AS UnitPrice,
-       orderDetails.qty AS QuantityOrdered
-FROM Orders
-INNER JOIN orderDetails ON Orders.id = orderDetails.orderId
-INNER JOIN FoodItems ON orderDetails.foodItemId = FoodItems.id;
-
-
-//.........get last Id For jasper Report
-
-
-SELECT Orders.id AS OrderID,
-       Orders.userId AS UserID,
-       Orders.date AS OrderDate,
-       Orders.Amount AS OrderAmount,
-       FoodItems.id AS FoodItemID,
-       FoodItems.description AS Description,
-       FoodItems.unitPrice AS UnitPrice,
-       orderDetails.qty AS QuantityOrdered
-FROM Orders
-INNER JOIN orderDetails ON Orders.id = orderDetails.orderId
-INNER JOIN FoodItems ON orderDetails.foodItemId = FoodItems.id
-WHERE Orders.id = (SELECT MAX(id) FROM Orders);
-
-*/
 }
