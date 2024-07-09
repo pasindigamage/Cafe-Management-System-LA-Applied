@@ -36,22 +36,13 @@ public class KitchenWareMaintainDAOImpl implements KitchenWareMaintainDAO {
     }
 
     public List<KitchenWareMaintains> getAll() throws SQLException, ClassNotFoundException {
-//        SQLUtil.execute("select * from kitchenWareMaintain");
-        String sql = "select * from kitchenWareMaintain";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
-
         List<KitchenWareMaintains> kitchenWareMaintainsList = new ArrayList<>();
+        ResultSet resultSet=SQLUtil.execute("SELECT * from kitchenWareMaintain");
         while (resultSet.next()) {
-            String Id = resultSet.getString(1);
-            String kwId = resultSet.getString(2);
-            String description = resultSet.getString(3);
-            String date = resultSet.getString(4);
-            String amount = resultSet.getString(5);
+            KitchenWareMaintains kitchenWareMaintains = new KitchenWareMaintains(resultSet.getString("id"),
+                    resultSet.getString("kitchenWareId"),resultSet.getString("description"),
+                    resultSet.getString("date"),resultSet.getString("amount"));
 
-            KitchenWareMaintains kitchenWareMaintains = new KitchenWareMaintains(Id,kwId,description,date,amount);
             kitchenWareMaintainsList.add(kitchenWareMaintains);
         }
         return kitchenWareMaintainsList;

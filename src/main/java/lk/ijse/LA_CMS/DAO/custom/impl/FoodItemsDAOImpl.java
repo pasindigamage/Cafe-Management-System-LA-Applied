@@ -50,7 +50,7 @@ public class FoodItemsDAOImpl implements FoodItemsDAO {
     public FoodItems searchByCode(String foodItemDValue) throws SQLException {
         ResultSet resultSet=SQLUtil.execute(("SELECT * FROM FoodItems WHERE description = ?"),foodItemDValue);
         resultSet.next();
-        return new FoodItems(resultSet.getString("id"),foodItemDValue+"",
+        return new FoodItems(resultSet.getString("id"),foodItemDValue,
                 resultSet.getDouble("unitPrice"),resultSet.getInt("qtyOnHand"));
     }
 

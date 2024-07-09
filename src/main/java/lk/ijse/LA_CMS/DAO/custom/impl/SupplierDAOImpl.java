@@ -18,16 +18,6 @@ public class SupplierDAOImpl implements SupplierDAO {
         return SQLUtil.execute(("INSERT INTO Supplier VALUES(?, ?, ?, ?, ?, ?)"),
                 supplier.getId(),supplier.getNic(),supplier.getName(),
                 supplier.getCompanyAddress(),supplier.getEmail(),supplier.getContact());
-        /*String sql ="INSERT INTO Supplier VALUES(?, ?, ?, ?, ?, ?)";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-        pstm.setObject(1, supplier.getId());
-        pstm.setObject(2, supplier.getNic());
-        pstm.setObject(3, supplier.getName());
-        pstm.setObject(4, supplier.getCompanyAddress());
-        pstm.setObject(5, supplier.getEmail());
-        pstm.setObject(6, supplier.getContact());
-
-        return pstm.executeUpdate() > 0;*/
     }
 
     public boolean update(Supplier supplier) throws SQLException {
@@ -35,87 +25,37 @@ public class SupplierDAOImpl implements SupplierDAO {
                 "email = ?, contact = ? where id =? "),
                 supplier.getNic(),supplier.getName(), supplier.getCompanyAddress(),
                 supplier.getEmail(),supplier.getContact(),supplier.getId());
-        /*String sql ="UPDATE Supplier set nic = ?, name = ?, companyAddress = ?, email = ?, contact = ? where id =? ";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-
-        pstm.setObject(1, supplier.getNic());
-        pstm.setObject(2, supplier.getName());
-        pstm.setObject(3, supplier.getCompanyAddress());
-        pstm.setObject(4, supplier.getEmail());
-        pstm.setObject(5, supplier.getContact());
-        pstm.setObject(6, supplier.getId());
-
-        return pstm.executeUpdate() > 0;*/
     }
 
     public boolean delete(String id) throws SQLException {
         return SQLUtil.execute(("DELETE FROM Supplier WHERE id = ?"),id);
-        /*String sql = "DELETE FROM Supplier WHERE id = ?";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        pstm.setObject(1, id);
-
-        return pstm.executeUpdate() > 0;
-*/
     }
 
     public Supplier searchByCode(String id) throws SQLException {
-        String sql = "SELECT * FROM Supplier WHERE id = ?";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        pstm.setObject(1, id);
-        ResultSet resultSet = pstm.executeQuery();
-
-        Supplier supplier = null;
-
-        if (resultSet.next()) {
-            String sid = resultSet.getString(1);
-            String snic = resultSet.getString(2);
-            String name = resultSet.getString(3);
-            String companyAddress = resultSet.getString(4);
-            String email = resultSet.getString(5);
-            String contact = resultSet.getString(6);
-
-
-            supplier = new Supplier(sid,snic,name,companyAddress,email,contact);
-        }
-        return supplier;
+        ResultSet resultSet=SQLUtil.execute(("SELECT * FROM Supplier WHERE id = ?"),id);
+        resultSet.next();
+        return new Supplier(id+"",resultSet.getString("nic"),resultSet.getString("name"),
+                resultSet.getString("companyAddress"),resultSet.getString("email"),
+                resultSet.getString("contact"));
     }
 
     public List<Supplier> getAll() throws SQLException {
-        String sql = "SELECT * FROM Supplier";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
-
         List<Supplier> supplierList = new ArrayList<>();
-        while (resultSet.next()) {
-            String sId = resultSet.getString(1);
-            String sNic = resultSet.getString(2);
-            String name = resultSet.getString(3);
-            String copmanyAddress = resultSet.getString(4);
-            String email = resultSet.getString(5);
-            String contact = resultSet.getString(6);
 
-            Supplier supplier = new Supplier(sId,sNic,name,copmanyAddress,email,contact);
+        ResultSet resultSet=SQLUtil.execute("SELECT * FROM Supplier");
+        while (resultSet.next()) {
+            Supplier supplier = new Supplier(resultSet.getString("id"),resultSet.
+                    getString("nic"),resultSet.getString("name"),
+                    resultSet.getString("companyAddress"),resultSet.getString("email"),
+                    resultSet.getString("contact"));
             supplierList.add(supplier);
         }
         return supplierList;
     }
 
     public List<String> getIds() throws SQLException {
-        String sql = "SELECT name FROM Supplier";
-
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
         List<String> IdList = new ArrayList<>();
-
-        ResultSet resultSet = pstm.executeQuery();
-
+        ResultSet resultSet=SQLUtil.execute("SELECT name FROM Supplier");
         while(resultSet.next()) {
             IdList.add(resultSet.getString(1));
         }
@@ -123,51 +63,22 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     public Supplier searchByDescription(String sName) throws SQLException {
-        String sql = "SELECT * FROM Supplier WHERE name = ?";
-
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-        pstm.setObject(1, sName);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet=SQLUtil.execute(("SELECT * FROM Supplier WHERE name = ?"),sName);
         if(resultSet.next()) {
-            return new Supplier(
-                    resultSet.getString(1),
-                    resultSet.getString(2),
-                    resultSet.getString(3),
-                    resultSet.getString(4),
-                    resultSet.getString(5),
-                    resultSet.getString(6)
-            );
+            return new Supplier(resultSet.getString("id"),resultSet.
+                    getString("nic"),sName+"",
+                    resultSet.getString("companyAddress"),resultSet.getString("email"),
+                    resultSet.getString("contact"));
+
         }
         return null;
     }
 
     public String currentId() throws SQLException {
-        String sql = "SELECT id FROM Supplier ORDER BY id desc LIMIT 1";
-
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql);
-             ResultSet resultSet = pstm.executeQuery()) {
-
+       ResultSet resultSet=SQLUtil.execute("SELECT id FROM Supplier ORDER BY id desc LIMIT 1");
             if (resultSet.next()) {
                 return resultSet.getString(1);
             }
             return null;
         }
     }
-
-    public static String searchName() throws SQLException {
-        String sql = "SELECT name FROM Supplier where id = ?";
-
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql);
-             ResultSet resultSet = pstm.executeQuery()) {
-
-            if (resultSet.next()) {
-                return resultSet.getString(1);
-            }
-            return null;
-        }
-    }
-}

@@ -20,16 +20,6 @@ public class OtherMaintainDAOImpl implements OtherMaintainDAO {
         return SQLUtil.execute(("UPDATE otherMaintain set description = ?, date = ?, amount = ? where id =? "),
                 otherMaintains.getDescription(),otherMaintains.getDate(),
                 otherMaintains.getAmount(),otherMaintains.getId());
-        /*String sql ="UPDATE otherMaintain set description = ?, date = ?, amount = ? where id =? ";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-
-        pstm.setObject(1, otherMaintains.getDescription());
-        pstm.setObject(2, otherMaintains.getDate());
-        pstm.setObject(3, otherMaintains.getAmount());
-        pstm.setObject(4, otherMaintains.getId());
-
-        return pstm.executeUpdate() > 0;
-*/
     }
 
     public boolean delete(String id) throws SQLException {
@@ -42,24 +32,15 @@ public class OtherMaintainDAOImpl implements OtherMaintainDAO {
     }
 
     public List<OtherMaintains> getAll() throws SQLException {
-        String sql = "SELECT * FROM otherMaintain";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
-
         List<OtherMaintains> otherMaintainsList = new ArrayList<>();
+        ResultSet resultSet=SQLUtil.execute("SELECT * FROM otherMaintain");
         while (resultSet.next()) {
-            String omid = resultSet.getString(1);
-            String omdescription = resultSet.getString(2);
-            Date date = Date.valueOf(resultSet.getString(3));
-            String amount = resultSet.getString(4);
-
-            OtherMaintains otherMaintains = new OtherMaintains(omid,omdescription,date,amount);
-            otherMaintainsList.add(otherMaintains);
+            OtherMaintains otherMaintains = new OtherMaintains(resultSet.getString(1),
+            resultSet.getString(2), Date.valueOf(resultSet.getString(3)),
+            resultSet.getString(4));
+                    otherMaintainsList.add(otherMaintains);
         }
         return otherMaintainsList;
-
     }
 
     @Override
@@ -73,16 +54,11 @@ public class OtherMaintainDAOImpl implements OtherMaintainDAO {
     }
 
     public String currentId() throws SQLException {
-        String sql = "SELECT id FROM otherMaintain ORDER BY id desc LIMIT 1";
-
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql);
-             ResultSet resultSet = pstm.executeQuery()) {
-
+        ResultSet resultSet = SQLUtil.execute("SELECT id FROM otherMaintain ORDER BY id desc LIMIT 1");
             if (resultSet.next()) {
                 return resultSet.getString(1);
             }
             return null;
         }
-    }
+
 }

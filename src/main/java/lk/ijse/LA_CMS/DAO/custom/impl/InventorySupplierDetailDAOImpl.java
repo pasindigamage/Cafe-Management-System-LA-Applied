@@ -12,20 +12,8 @@ import java.util.List;
 
 public class InventorySupplierDetailDAOImpl implements InventorySupplierDetailDAO {
     public boolean save(InventorySupplier inventoryDetail) throws SQLException {
-        return SQLUtil.execute(("INSERT INTO inventorySupplier VALUES(?, ?, ?)"),inventoryDetail.getSupplierId(),
-                inventoryDetail.getInventoryId(),inventoryDetail.getDate());
-        /*
-        String sql = "INSERT INTO inventorySupplier VALUES(?, ?, ?)";
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql)) {
-            //  pstm.setString(1, inventoryDetail.getId());
-            pstm.setObject(1, inventoryDetail.getSupplierId());
-            pstm.setObject(2, inventoryDetail.getInventoryId());
-            pstm.setObject(3, inventoryDetail.getDate());  // Assuming getDate returns LocalDate
-            //  pstm.setDouble(5, inventoryDetail.getUnitPrice());  // Corrected to setDouble for unitPrice
-            // pstm.setInt(6, inventoryDetail.getQty());
-            return pstm.executeUpdate() > 0;
-        }*/
+        return SQLUtil.execute(("INSERT INTO inventorySupplier VALUES(?, ?, ?)"), inventoryDetail.getSupplierId(),
+                inventoryDetail.getInventoryId(), inventoryDetail.getDate());
     }
 
     @Override
@@ -35,43 +23,15 @@ public class InventorySupplierDetailDAOImpl implements InventorySupplierDetailDA
 
     public boolean delete(String id) throws SQLException {
         return SQLUtil.execute(("DELETE FROM inventorySupplier WHERE foodItemId = ?"),id);
-        /*String sql = "DELETE FROM inventorySupplier WHERE foodItemId = ?";
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql)) {
-            pstm.setString(1, id);
-            return pstm.executeUpdate() > 0;
-        }*/
     }
 
-    public InventorySupplier searchByDate(String id) throws SQLException {
-        String sql = "SELECT * FROM inventorySupplier WHERE date = ?";
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql)) {
-            pstm.setString(1, id);
-            try (ResultSet resultSet = pstm.executeQuery()) {
-                if (resultSet.next()) {
-                    return new InventorySupplier(
-                            resultSet.getString(1),
-                            resultSet.getString(2),
-                            resultSet.getDate(3)
-                    );
-                }
-            }
-        }
-        return null;
-    }
 
     public List<InventorySupplier> getAll() throws SQLException {
-        String sql = "SELECT * FROM inventorySupplier";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-        ResultSet resultSet = pstm.executeQuery();
         List<InventorySupplier> InventorySupplierDetailList = new ArrayList<>();
+        ResultSet resultSet=SQLUtil.execute("SELECT * FROM inventorySupplier");
         while (resultSet.next()) {
-            String supID = resultSet.getString(1);
-            String foodID = resultSet.getString(2);
-            Date date = Date.valueOf(resultSet.getString(3));
-
-            InventorySupplierDetailList.add(new InventorySupplier(supID,foodID,date));
+            InventorySupplierDetailList.add(new InventorySupplier(resultSet.getString("supplierId"),
+                    resultSet.getString("foodItemId"),resultSet.getDate("date")));
         }
         return InventorySupplierDetailList;
     }
@@ -86,72 +46,23 @@ public class InventorySupplierDetailDAOImpl implements InventorySupplierDetailDA
         return List.of();
     }
 
-  /*  public static boolean updateQty(OrderDetail od) throws SQLException {
-        String sql = "UPDATE inventorySupplier SET qty = qty - ? WHERE inventoryId = ? AND foodItemId = ?";
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql)) {
-            for (OrderDetail od : odList) {
-                pstm.setInt(1, od.getQty());
-                pstm.setString(2, od.getOrderId());
-                pstm.setString(3, od.getFoodItemId());
-                /*pstm.addBatch();
-            }
-            int[] affectedRows = pstm.executeBatch();
-            for (int affectedRow : affectedRows) {
-                if (affectedRow == 0) {
-                    return false; // If no rows were affected, return false
-                }
-            }
-            return true; // If all updates were successful, return true
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false; // If any exception occurs, return false
-        }
-    }
-     Query for edition
-SELECT (sub1.qty - sub2.multiplied_qty) AS result
-FROM (
-    SELECT inventorySupplier.qty
-    FROM inventorySupplier
-    JOIN Inventory ON inventorySupplier.inventoryId = Inventory.id
-    JOIN IngrediansDetail ON Inventory.id = IngrediansDetail.inventoryId
-    WHERE IngrediansDetail.foodItemId = ?
-) AS sub1,
-(
-    SELECT IngrediansDetail.qty * 2 AS multiplied_qty
-    FROM IngrediansDetail
-    WHERE IngrediansDetail.foodItemId = ?
-) AS sub2;*/
-
     public String currentId() throws SQLException {
-        String sql = "SELECT id FROM inventorySupplier ORDER BY id desc LIMIT 1";
-
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql);
-             ResultSet resultSet = pstm.executeQuery()) {
-
+        ResultSet resultSet=SQLUtil.execute("SELECT id FROM inventorySupplier ORDER BY id desc LIMIT 1");
             if (resultSet.next()) {
                 return resultSet.getString(1);
             }
             return null;
-        }
     }
 
     public InventorySupplier searchByDescription(String ingrediansIDValue) throws SQLException {
-        String sql = "SELECT * FROM inventorySupplier WHERE description = ?";
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql)) {
-            pstm.setString(1, ingrediansIDValue);
-            try (ResultSet resultSet = pstm.executeQuery()) {
+        ResultSet resultSet=SQLUtil.execute("SELECT * FROM inventorySupplier WHERE description = ?");
                 if (resultSet.next()) {
                     return new InventorySupplier(
-                            resultSet.getString(1),
-                            resultSet.getString(2),
+                            resultSet.getString(1), resultSet.getString(2),
                             resultSet.getDate(3)
                     );
                 }
-            }
-        }
+
         return null;
     }
 
@@ -165,7 +76,7 @@ FROM (
     }
 
     private boolean updateQty(OrderDetail od) throws SQLException {
-        String sql = "SELECT (sub1.qty - sub2.multiplied_qty) AS result\n" +
+        return SQLUtil.execute(("SELECT (sub1.qty - sub2.multiplied_qty) AS result\n" +
                 "FROM (\n" +
                 "    SELECT inventorySupplier.qty\n" +
                 "    FROM inventorySupplier\n" +
@@ -177,13 +88,11 @@ FROM (
                 "    SELECT IngrediansDetail.qty * 2 AS multiplied_qty\n" +
                 "    FROM IngrediansDetail\n" +
                 "    WHERE IngrediansDetail.foodItemId = ?\n" +
-                ") AS sub2;";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
+                ") AS sub2;"),od);
+    }
 
-        pstm.setInt(1, od.getQty());
-        pstm.setString(2, od.getFoodItemId());
-
-        return pstm.executeUpdate() > 0;
+    @Override
+    public InventorySupplier searchByDate(String id) throws SQLException {
+        return null;
     }
 }
