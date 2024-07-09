@@ -52,14 +52,8 @@ public class KitchenWareDAOImpl implements KitchenWareDAO {
 
     public List<KitchenWare> getAll() throws SQLException, ClassNotFoundException {
         List<KitchenWare> kitchenWareList = new ArrayList<>();
-
-        String sql = "\n" +
-                " SELECT KitchenWare.id, Supplier.name, KitchenWare.description, KitchenWare.qty " +
-                "FROM KitchenWare join Supplier on KitchenWare.supplierId = Supplier.id;\n";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet=SQLUtil.execute("SELECT KitchenWare.id, Supplier.name, KitchenWare.description, KitchenWare.qty " +
+                "FROM KitchenWare join Supplier on KitchenWare.supplierId = Supplier.id;");
 
         while (resultSet.next()) {
             String Id = resultSet.getString(1);
@@ -67,7 +61,8 @@ public class KitchenWareDAOImpl implements KitchenWareDAO {
             String description = resultSet.getString(3);
             String qty = resultSet.getString(4);
 
-            KitchenWare kitchenWare = new KitchenWare(Id,supName,description,qty);
+            KitchenWare kitchenWare = new KitchenWare(resultSet.getString(1),
+            resultSet.getString(2), resultSet.getString(3), resultSet.getString(4));
             kitchenWareList.add(kitchenWare);
         }
         return kitchenWareList;
