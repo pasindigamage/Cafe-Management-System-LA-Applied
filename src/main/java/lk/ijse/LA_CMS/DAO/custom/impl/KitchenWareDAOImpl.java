@@ -56,11 +56,6 @@ public class KitchenWareDAOImpl implements KitchenWareDAO {
                 "FROM KitchenWare join Supplier on KitchenWare.supplierId = Supplier.id;");
 
         while (resultSet.next()) {
-            String Id = resultSet.getString(1);
-            String supName = resultSet.getString(2);
-            String description = resultSet.getString(3);
-            String qty = resultSet.getString(4);
-
             KitchenWare kitchenWare = new KitchenWare(resultSet.getString(1),
             resultSet.getString(2), resultSet.getString(3), resultSet.getString(4));
             kitchenWareList.add(kitchenWare);
