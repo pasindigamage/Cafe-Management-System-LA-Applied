@@ -46,7 +46,8 @@ public class FoodItemsDAOImpl implements FoodItemsDAO {
         }
         return foodItemsList;
     }
-//have a matter
+
+    //have a matter
     public FoodItems searchByCode(String foodItemDValue) throws SQLException {
         ResultSet resultSet=SQLUtil.execute(("SELECT * FROM FoodItems WHERE description = ?"),foodItemDValue);
         resultSet.next();
@@ -83,14 +84,6 @@ public class FoodItemsDAOImpl implements FoodItemsDAO {
     }
 
     private static boolean updateQty(String Id, int qty) throws SQLException {
-        String sql = "UPDATE FoodItems SET qtyOnHand = qtyOnHand - ? WHERE id = ?";
-
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        pstm.setInt(1, qty);
-        pstm.setString(2, Id);
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute(("UPDATE FoodItems SET qtyOnHand = qtyOnHand - ? WHERE id = ?"),qty,Id);
     }
 }
