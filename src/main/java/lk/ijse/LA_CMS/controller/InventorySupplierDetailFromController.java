@@ -14,12 +14,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.LA_CMS.BO.BOFactory;
+import lk.ijse.LA_CMS.BO.custom.SupplierBO;
 import lk.ijse.LA_CMS.DAO.custom.FoodItemsDAO;
 import lk.ijse.LA_CMS.DAO.custom.InventorySupplierDetailDAO;
 import lk.ijse.LA_CMS.DAO.custom.SupplierDAO;
 import lk.ijse.LA_CMS.DAO.custom.impl.FoodItemsDAOImpl;
 import lk.ijse.LA_CMS.DAO.custom.impl.InventorySupplierDetailDAOImpl;
 import lk.ijse.LA_CMS.DAO.custom.impl.SupplierDAOImpl;
+import lk.ijse.LA_CMS.DTO.SupplierDTO;
 import lk.ijse.LA_CMS.Entity.*;
 
 import java.sql.Date;
@@ -95,7 +98,9 @@ public class InventorySupplierDetailFromController {
 
     InventorySupplierDetailDAO inventorySupplierDetailDAO=new InventorySupplierDetailDAOImpl();
     FoodItemsDAO foodItemsDAO=new FoodItemsDAOImpl();
-    SupplierDAO supplierDAO=new SupplierDAOImpl();
+    SupplierBO supplierBO= (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
+
+    //SupplierDAO supplierDAO=new SupplierDAOImpl();
     public void initialize() throws ClassNotFoundException {
         setDate();
         getSupplierIds();
@@ -205,7 +210,7 @@ public class InventorySupplierDetailFromController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<String> idList = supplierDAO.getIds();
+            List<String> idList = supplierBO.getIds();
 
             for (String id : idList) {
                 obList.add(id);
@@ -320,7 +325,7 @@ public class InventorySupplierDetailFromController {
     void cmbSupOnAction(ActionEvent event) throws ClassNotFoundException {
         String sid = cmbISupplierId.getValue();
         try {
-            Supplier supplier = supplierDAO.searchByDescription(sid);
+            SupplierDTO supplier = supplierBO.searchByDescription(sid);
             if (supplier != null) {
                 lblsId.setText(supplier.getId());
             }

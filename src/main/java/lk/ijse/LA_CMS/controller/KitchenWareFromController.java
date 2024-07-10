@@ -11,8 +11,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.LA_CMS.BO.BOFactory;
+import lk.ijse.LA_CMS.BO.custom.SupplierBO;
 import lk.ijse.LA_CMS.DAO.custom.KitchenWareDAO;
 import lk.ijse.LA_CMS.DAO.custom.SupplierDAO;
+import lk.ijse.LA_CMS.DTO.SupplierDTO;
 import lk.ijse.LA_CMS.Entity.KitchenWare;
 import lk.ijse.LA_CMS.Entity.Supplier;
 import lk.ijse.LA_CMS.DAO.custom.impl.KitchenWareDAOImpl;
@@ -70,7 +73,8 @@ public class KitchenWareFromController {
     private JFXButton updateKitchenWare;
 
     KitchenWareDAO kitchenWareDAO=new KitchenWareDAOImpl();
-    SupplierDAO supplierDAO=new SupplierDAOImpl();
+    SupplierBO supplierBO= (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
+    //SupplierDAO supplierDAO=new SupplierDAOImpl();
     public void initialize() throws ClassNotFoundException {
         getSupplierIds();
         loadInventoryTable();
@@ -149,7 +153,7 @@ public class KitchenWareFromController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<String> idList = supplierDAO.getIds();
+            List<String> idList = supplierBO.getIds();
 
             for (String id : idList) {
                 obList.add(id);
@@ -274,7 +278,7 @@ public class KitchenWareFromController {
     void cmbItemOnAction(ActionEvent event) throws ClassNotFoundException {
         String sid = cmbISupplierId.getValue();
         try {
-            Supplier supplier = supplierDAO.searchByDescription(sid);
+            SupplierDTO supplier = supplierBO.searchByDescription(sid);
             if (supplier != null) {
                 lblsId.setText(supplier.getId());
             }

@@ -10,7 +10,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.LA_CMS.BO.BOFactory;
+import lk.ijse.LA_CMS.BO.custom.SupplierBO;
 import lk.ijse.LA_CMS.DAO.custom.SupplierDAO;
+import lk.ijse.LA_CMS.DTO.SupplierDTO;
 import lk.ijse.LA_CMS.Entity.Supplier;
 import lk.ijse.LA_CMS.DAO.custom.impl.SupplierDAOImpl;
 import lk.ijse.LA_CMS.util.Regex;
@@ -77,7 +80,8 @@ public class SupplierFromController {
     @FXML
     private JFXButton updateSuppler;
 
-    SupplierDAO supplierDAO=new SupplierDAOImpl();
+    //SupplierDAO supplierDAO=new SupplierDAOImpl();
+    SupplierBO supplierBO= (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
 
     public void initialize() throws ClassNotFoundException {
         setCellValueFactory();
@@ -124,7 +128,7 @@ public class SupplierFromController {
         try {
             // Check if sID label is properly initialized
             if (sID != null) {
-                String currentId = supplierDAO.currentId();
+                String currentId = supplierBO.currentId();
                 String nextId = nextId(currentId);
 
                 // Update the text of the sID label
@@ -153,8 +157,8 @@ public class SupplierFromController {
         ObservableList<Supplier> obList = FXCollections.observableArrayList();
 
         try {
-            List<Supplier> supplierList = supplierDAO.getAll();
-            for (Supplier supplier : supplierList) {
+            List<SupplierDTO> supplierList = supplierBO.getAll();
+            for (SupplierDTO supplier : supplierList) {
                 Supplier tm = new Supplier(
                         supplier.getId(),
                         supplier.getNic(),
@@ -189,7 +193,7 @@ public class SupplierFromController {
         String id = sIDSearch.getText();
 
         try {
-            Supplier supplier = supplierDAO.searchByCode(id);
+            SupplierDTO supplier = supplierBO.searchByCode(id);
 
             if (supplier != null) {
                 sID.setText(supplier.getId());
@@ -213,10 +217,10 @@ public class SupplierFromController {
         String emailText = sEmail.getText();
         String contactText =sContact.getText();
 
-        Supplier supplier = new Supplier(idText,nicText,nameText,addressText,emailText,contactText);
+        SupplierDTO supplier = new SupplierDTO(idText,nicText,nameText,addressText,emailText,contactText);
 
         try {
-            if (isValied()){   boolean isSaved = supplierDAO.save(supplier);
+            if (isValied()){   boolean isSaved = supplierBO.save(supplier);
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Supplier Saved!").show();
                     loadNextOrderId();
@@ -250,7 +254,7 @@ public class SupplierFromController {
         String id = sID.getText();
 
         try {
-            boolean isDeleted = supplierDAO.delete(id);
+            boolean isDeleted = supplierBO.delete(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Supplier Deleted!").show();
                 loadNextOrderId();
@@ -271,10 +275,10 @@ public class SupplierFromController {
         String emailText = sEmail.getText();
         String contactText = sContact.getText();
 
-        Supplier supplier = new Supplier(idText,nicText,nameText,addressText,emailText,contactText);
+        SupplierDTO supplier = new SupplierDTO(idText,nicText,nameText,addressText,emailText,contactText);
 
         try {
-            boolean isUpdated = supplierDAO.update(supplier);
+            boolean isUpdated = supplierBO.update(supplier);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Supplier Updated!").show();
                 clearFields();

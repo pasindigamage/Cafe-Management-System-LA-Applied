@@ -66,7 +66,7 @@ public class SupplierDAOImpl implements SupplierDAO {
         ResultSet resultSet=SQLUtil.execute(("SELECT * FROM Supplier WHERE name = ?"),sName);
         if(resultSet.next()) {
             return new Supplier(resultSet.getString("id"),resultSet.
-                    getString("nic"),sName+"",
+                    getString("nic"),sName,
                     resultSet.getString("companyAddress"),resultSet.getString("email"),
                     resultSet.getString("contact"));
 
