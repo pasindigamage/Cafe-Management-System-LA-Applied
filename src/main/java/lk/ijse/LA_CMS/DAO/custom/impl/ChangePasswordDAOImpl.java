@@ -3,6 +3,7 @@ package lk.ijse.LA_CMS.DAO.custom.impl;
 import javafx.scene.control.Alert;
 import lk.ijse.LA_CMS.DAO.custom.ChangePasswordDAO;
 import lk.ijse.LA_CMS.DTO.ChangePasswordDTO;
+import lk.ijse.LA_CMS.Entity.User;
 import lk.ijse.LA_CMS.db.DbConnection;
 
 import java.sql.Connection;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class ChangePasswordDAOImpl implements ChangePasswordDAO {
 
-    public boolean save(ChangePasswordDTO changePasswordDTO) {
+    public boolean save(User dto) throws SQLException, ClassNotFoundException {
         try {
             String sql = "UPDATE User SET password = ? WHERE userName = ?";
 
@@ -20,8 +21,8 @@ public class ChangePasswordDAOImpl implements ChangePasswordDAO {
             Connection connection = DbConnection.getInstance().getConnection();
             PreparedStatement pstm = connection.prepareStatement(sql);
 
-            pstm.setString(1, changePasswordDTO.getNewPassword());
-            pstm.setString(2, changePasswordDTO.getUserName());
+          //  pstm.setString(1, changePasswordDTO.getNewPassword());
+          //  pstm.setString(2, changePasswordDTO.getUserName());
 
             int rowsUpdated = pstm.executeUpdate();
             if (rowsUpdated > 0) {
@@ -37,27 +38,27 @@ public class ChangePasswordDAOImpl implements ChangePasswordDAO {
     }
 
     @Override
-    public boolean update(ChangePasswordDTO dto) {
+    public boolean update(User dto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public ChangePasswordDTO searchByDescription(String id) {
+    public User searchByDescription(String id) throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public List<ChangePasswordDTO> getAll() {
+    public List<User> getAll() throws SQLException, ClassNotFoundException {
         return List.of();
     }
 
     @Override
-    public ChangePasswordDTO searchByCode(String code) {
+    public User searchByCode(String code) throws SQLException, ClassNotFoundException {
         return null;
     }
 

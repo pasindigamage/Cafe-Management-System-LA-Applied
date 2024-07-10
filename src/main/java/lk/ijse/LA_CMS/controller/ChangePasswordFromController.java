@@ -12,6 +12,8 @@ import lk.ijse.LA_CMS.DAO.custom.impl.ChangePasswordDAOImpl;
 import lk.ijse.LA_CMS.DTO.ChangePasswordDTO;
 import lk.ijse.LA_CMS.util.Regex;
 
+import java.sql.SQLException;
+
 public class ChangePasswordFromController {
 
     @FXML
@@ -50,7 +52,7 @@ public class ChangePasswordFromController {
     }
 
     @FXML
-    void saveOnAction(ActionEvent event) {
+    void saveOnAction(ActionEvent event) throws SQLException {
         String uname = userName.getText();
         String eid = employeeId.getText();
         String newPw = newPassword.getText();
@@ -58,7 +60,7 @@ public class ChangePasswordFromController {
         if(isValied()) {
             ChangePasswordDTO changePasswordDTO=new ChangePasswordDTO(uname,eid,newPw);
             ChangePasswordDAOImpl changePassword = new ChangePasswordDAOImpl();
-            changePassword.save(changePasswordDTO);
+            //changePassword.save(changePasswordDTO);
         }else {
             new Alert(Alert.AlertType.ERROR, "Password update failed. User not found").show();
         }
