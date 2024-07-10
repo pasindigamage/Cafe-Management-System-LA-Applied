@@ -1,5 +1,6 @@
 package lk.ijse.LA_CMS.DAO.custom.impl;
 
+import lk.ijse.LA_CMS.DAO.custom.FoodItemsDAO;
 import lk.ijse.LA_CMS.DAO.custom.OrderDetailDAO;
 import lk.ijse.LA_CMS.DAO.custom.OrdersDAO;
 import lk.ijse.LA_CMS.DAO.custom.PlaceOrderDAO;
@@ -12,13 +13,14 @@ public class PlaceOrderDAOImpl implements PlaceOrderDAO {
 
     OrderDetailDAO orderDetailDAO=new OrderDetailDAOImpl();
     OrdersDAO ordersDAO=new OrdersDAOImpl();
+    FoodItemsDAO foodItemsDAO=new FoodItemsDAOImpl();
 
     public boolean placeOrder(PlaceOrder po) throws ClassNotFoundException {
         try {
             boolean isOrderSaved = ordersDAO.save(po.getOrder());
 
             if (isOrderSaved && orderDetailDAO.save1(po.getOdList())) {
-                boolean isQtyUpdated = FoodItemsDAOImpl.update1(po.getOdList());
+                boolean isQtyUpdated = foodItemsDAO.update1(po.getOdList());
 
                 if (isQtyUpdated) {
                     return true;

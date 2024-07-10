@@ -12,7 +12,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.LA_CMS.BO.BOFactory;
+import lk.ijse.LA_CMS.BO.custom.FoodItemsBO;
 import lk.ijse.LA_CMS.DAO.custom.FoodItemsDAO;
+import lk.ijse.LA_CMS.DTO.FoodItemsDTO;
 import lk.ijse.LA_CMS.Entity.FoodItems;
 import lk.ijse.LA_CMS.DAO.custom.impl.FoodItemsDAOImpl;
 import lk.ijse.LA_CMS.util.Regex;
@@ -68,7 +71,7 @@ public class FoodItemFromController {
     @FXML
     private JFXButton updateMenu;
 
-    FoodItemsDAO foodItemsDAO=new FoodItemsDAOImpl();
+    FoodItemsBO foodItemsBO= (FoodItemsBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.FOODITEMS);
     public void initialize() throws ClassNotFoundException {
         setCellValueFactory();
         loadFoodTable();
@@ -103,7 +106,7 @@ public class FoodItemFromController {
 
     private void loadNextOrderId() throws ClassNotFoundException {
         try {
-            String currentId = foodItemsDAO.currentId();
+            String currentId = foodItemsBO.currentId();
             String nextId = nextId(currentId);
 
             fID.setText(nextId);
@@ -126,8 +129,8 @@ public class FoodItemFromController {
         ObservableList<FoodItems> obList = FXCollections.observableArrayList();
 
         try {
-            List<FoodItems> foodItemsList = foodItemsDAO.getAll();
-            for (FoodItems foodItems : foodItemsList) {
+            List<FoodItemsDTO> foodItemsList = foodItemsBO.getAll();
+            for (FoodItemsDTO foodItems : foodItemsList) {
                 FoodItems tm = new FoodItems(
                         foodItems.getId(),
                         foodItems.getDescription(),
@@ -158,7 +161,7 @@ public class FoodItemFromController {
         String description = fooditemSearch.getText();
 
         try {
-            FoodItems foodItems = foodItemsDAO.searchByDescription(description);
+            FoodItemsDTO foodItems = foodItemsBO.searchByDescription(description);
 
             if (foodItems != null) {
                 fID.setText(foodItems.getId());
@@ -178,10 +181,10 @@ public class FoodItemFromController {
         double amountText = Double.parseDouble(fAmount.getText());
         int qtyText = Integer.parseInt(fQty.getText());
 
-        FoodItems foodItems = new FoodItems(idText,descriptionText,amountText,qtyText);
+        FoodItemsDTO foodItems = new FoodItemsDTO(idText,descriptionText,amountText,qtyText);
 
         try {
-            boolean isSaved = foodItemsDAO.save(foodItems);
+            boolean isSaved = foodItemsBO.save(foodItems);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Menu Item is Saved!").show();
                 clearFields();
@@ -220,7 +223,7 @@ public class FoodItemFromController {
         String id = fID.getText();
 
         try {
-            boolean isDeleted = foodItemsDAO.delete(id);
+            boolean isDeleted = foodItemsBO.delete(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Menu Item is Deleted!").show();
                 loadFoodTable();
@@ -238,10 +241,10 @@ public class FoodItemFromController {
         double amountText = Double.parseDouble(fAmount.getText());
         int qtyText = Integer.parseInt(fQty.getText());
 
-        FoodItems foodItems = new FoodItems(idText,descriptionText,amountText,qtyText);
+        FoodItemsDTO foodItems = new FoodItemsDTO(idText,descriptionText,amountText,qtyText);
 
         try {
-            boolean isUpdated = foodItemsDAO.update(foodItems);
+            boolean isUpdated = foodItemsBO.update(foodItems);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Menu Item is Updated!").show();
                 loadFoodTable();

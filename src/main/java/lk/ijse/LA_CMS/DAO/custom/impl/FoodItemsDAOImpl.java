@@ -73,7 +73,7 @@ public class FoodItemsDAOImpl implements FoodItemsDAO {
             return null;
     }
 
-    public static boolean update1(List<OrderDetail> odList) throws SQLException {
+    public boolean update1(List<OrderDetail> odList) throws SQLException {
         for (OrderDetail od : odList) {
             boolean isUpdateQty = updateQty(od.getFoodItemId(), od.getQty());
             if(!isUpdateQty) {
@@ -83,7 +83,7 @@ public class FoodItemsDAOImpl implements FoodItemsDAO {
         return true;
     }
 
-    private static boolean updateQty(String Id, int qty) throws SQLException {
+    public boolean updateQty(String Id, int qty) throws SQLException {
         return SQLUtil.execute(("UPDATE FoodItems SET qtyOnHand = qtyOnHand - ? WHERE id = ?"),qty,Id);
     }
 }
