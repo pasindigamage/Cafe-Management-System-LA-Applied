@@ -12,5 +12,4 @@ public interface CrudDAO<T> {
     public  T searchByCode(String code) throws SQLException,ClassNotFoundException;
     public  List<String> getIds() throws SQLException,ClassNotFoundException;
     public  String currentId() throws SQLException,ClassNotFoundException;
-
 }
