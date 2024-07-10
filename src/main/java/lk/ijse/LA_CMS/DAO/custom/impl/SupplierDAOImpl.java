@@ -69,7 +69,6 @@ public class SupplierDAOImpl implements SupplierDAO {
                     getString("nic"),sName,
                     resultSet.getString("companyAddress"),resultSet.getString("email"),
                     resultSet.getString("contact"));
-
         }
         return null;
     }
