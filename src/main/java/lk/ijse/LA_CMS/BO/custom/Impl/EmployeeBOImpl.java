@@ -20,8 +20,8 @@ public class EmployeeBOImpl implements EmployeeBO {
     }
 
     public boolean update(EmployeeDTO employee) throws SQLException, ClassNotFoundException {
-        return employeeDAO.update(new Employee(employee.getName(),employee.getPosition(),employee.getAddress(),
-                employee.getEmail(),employee.getContact(),employee.getId()));
+        return employeeDAO.update(new Employee(employee.getId(),employee.getName(),employee.getPosition(),
+                employee.getAddress(),employee.getEmail(),employee.getContact()));
     }
 
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
@@ -35,8 +35,8 @@ public class EmployeeBOImpl implements EmployeeBO {
     }
 
     public List<EmployeeDTO> getAll() throws SQLException, ClassNotFoundException {
-       List<Employee>employees=employeeDAO.getAll();
         List<EmployeeDTO> employeeDTOS = new ArrayList<>();
+        List<Employee>employees=employeeDAO.getAll();
         for (Employee employee:employees){
             EmployeeDTO employeeDTO=new EmployeeDTO(employee.getId(),employee.getName(),employee.getPosition(),
                     employee.getAddress(),employee.getEmail(),employee.getContact());

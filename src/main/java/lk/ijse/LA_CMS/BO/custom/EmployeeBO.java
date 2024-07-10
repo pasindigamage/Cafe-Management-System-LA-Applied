@@ -11,6 +11,5 @@ public interface EmployeeBO {
     public boolean delete(String id) throws SQLException, ClassNotFoundException;
     public EmployeeDTO searchByCode(String id) throws SQLException, ClassNotFoundException;
     public List<EmployeeDTO> getAll() throws SQLException, ClassNotFoundException;
-   // public List<String> getIds() throws SQLException;
     public String currentId() throws SQLException, ClassNotFoundException;
 }

@@ -9,9 +9,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.LA_CMS.DAO.custom.EmployeeDAO;
+import lk.ijse.LA_CMS.BO.custom.EmployeeBO;
+import lk.ijse.LA_CMS.BO.custom.Impl.EmployeeBOImpl;
+import lk.ijse.LA_CMS.DTO.EmployeeDTO;
 import lk.ijse.LA_CMS.Entity.Employee;
-import lk.ijse.LA_CMS.DAO.custom.impl.EmployeeDAOImpl;
 import lk.ijse.LA_CMS.util.Regex;
 
 import java.sql.SQLException;
@@ -82,7 +83,7 @@ public class EmployeeFromController {
 
     private List<Employee> employeeList = new ArrayList<>();
 
-    EmployeeDAO employeeDAO=new EmployeeDAOImpl();
+    EmployeeBO employeeBO=new EmployeeBOImpl();
     public void initialize() throws ClassNotFoundException {
         setCellValueFactory();
         loadEmployeeTable();
@@ -130,7 +131,7 @@ public class EmployeeFromController {
 
     private void loadNextOrderId() throws ClassNotFoundException {
         try {
-            String currentId = employeeDAO.currentId();
+            String currentId = employeeBO.currentId();
             String nextId = generateNextEmployeeId(currentId);
 
             eID.setText(nextId);
@@ -153,8 +154,8 @@ public class EmployeeFromController {
         ObservableList<Employee> obList = FXCollections.observableArrayList();
 
         try {
-            List<Employee> employeeList = employeeDAO.getAll();
-            for (Employee employee : employeeList) {
+            List<EmployeeDTO> employeeList = employeeBO.getAll();
+            for (EmployeeDTO employee : employeeList) {
                 Employee tm = new Employee(
                         employee.getId(),
                         employee.getName(),
@@ -181,10 +182,10 @@ public class EmployeeFromController {
         colContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
     }
 
-    private List<Employee> getAllEmployee() throws ClassNotFoundException {
-        List<Employee> employeeList = null;
+    private List<EmployeeDTO> getAllEmployee() throws ClassNotFoundException {
+        List<EmployeeDTO> employeeList = null;
         try {
-            employeeList = employeeDAO.getAll();
+            employeeList = employeeBO.getAll();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -196,7 +197,7 @@ public class EmployeeFromController {
         String id = eIDSearch.getText();
 
         try {
-            Employee employee = employeeDAO.searchByCode(id);
+            Employee employee = employeeBO.searchByCode(id);
 
             if (employee != null) {
                 eID.setText(id);
@@ -220,10 +221,10 @@ public class EmployeeFromController {
         String position =ePossition.getText();
         String email = eEmail.getText();
 
-        Employee employee = new Employee(id,name,position,address,email,contact);
+        EmployeeDTO employee = new EmployeeDTO(id,name,position,address,email,contact);
 
         try {
-            if(isValied()){boolean isSaved = employeeDAO.save(employee);
+            if(isValied()){boolean isSaved = employeeBO.save(employee);
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Employee Saved!").show();
                     clearFields();
@@ -256,7 +257,7 @@ public class EmployeeFromController {
         String id = eID.getText();
 
         try {
-            boolean isDeleted = employeeDAO.delete(id);
+            boolean isDeleted = employeeBO.delete(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Employee Deleted!").show();
                 clearFields();
@@ -277,10 +278,10 @@ public class EmployeeFromController {
         String emailText = eEmail.getText();
         String contactText = eContact.getText();
 
-        Employee employee = new Employee(idText,nameText,possitionText,addressText,emailText,contactText);
+        EmployeeDTO employee = new EmployeeDTO(idText,nameText,possitionText,addressText,emailText,contactText);
 
         try {
-            boolean isUpdated = employeeDAO.update(employee);
+            boolean isUpdated = employeeBO.update(employee);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Employee Updated!").show();
                 clearFields();
