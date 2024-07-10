@@ -1,0 +1,23 @@
+package lk.ijse.LA_CMS.BO.custom;
+
+import lk.ijse.LA_CMS.BO.SuperBO;
+import lk.ijse.LA_CMS.DAO.CrudDAO;
+import lk.ijse.LA_CMS.DAO.SQLUtil;
+import lk.ijse.LA_CMS.DTO.SupplierDTO;
+import lk.ijse.LA_CMS.Entity.Supplier;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public interface SupplierBO extends SuperBO {
+    public boolean save(SupplierDTO supplier) throws SQLException, ClassNotFoundException;
+    public boolean update(SupplierDTO supplier) throws SQLException, ClassNotFoundException;
+    public boolean delete(String id) throws SQLException, ClassNotFoundException;
+    public SupplierDTO searchByCode(String id) throws SQLException, ClassNotFoundException;
+    public List<SupplierDTO> getAll() throws SQLException, ClassNotFoundException;
+    public List<String> getIds() throws SQLException, ClassNotFoundException;
+    public SupplierDTO searchByDescription(String sName) throws SQLException, ClassNotFoundException;
+    public String currentId() throws SQLException, ClassNotFoundException;
+}

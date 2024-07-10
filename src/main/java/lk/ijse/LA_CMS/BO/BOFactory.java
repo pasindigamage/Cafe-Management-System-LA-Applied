@@ -1,5 +1,8 @@
 package lk.ijse.LA_CMS.BO;
 
+import lk.ijse.LA_CMS.BO.custom.Impl.EmployeeBOImpl;
+import lk.ijse.LA_CMS.BO.custom.Impl.SupplierBOImpl;
+
 public class BOFactory {
     private static BOFactory boFactory;
 
@@ -15,8 +18,10 @@ public class BOFactory {
 
     public SuperBO getBO(BOType boType){
         switch (boType){
-            case CREDINTIAL:
-                return null;
+            case EMPLOYEE:
+                return new EmployeeBOImpl();
+            case SUPPLIER:
+                return new SupplierBOImpl();
         }
         return null;
     }

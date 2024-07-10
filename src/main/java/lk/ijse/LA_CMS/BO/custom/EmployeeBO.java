@@ -1,11 +1,12 @@
 package lk.ijse.LA_CMS.BO.custom;
 
+import lk.ijse.LA_CMS.BO.SuperBO;
 import lk.ijse.LA_CMS.DTO.EmployeeDTO;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface EmployeeBO {
+public interface EmployeeBO extends SuperBO {
     public boolean save(EmployeeDTO employee) throws SQLException, ClassNotFoundException;
     public boolean update(EmployeeDTO employee) throws SQLException, ClassNotFoundException;
     public boolean delete(String id) throws SQLException, ClassNotFoundException;

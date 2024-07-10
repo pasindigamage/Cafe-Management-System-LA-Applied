@@ -9,6 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.LA_CMS.BO.BOFactory;
 import lk.ijse.LA_CMS.BO.custom.EmployeeBO;
 import lk.ijse.LA_CMS.BO.custom.Impl.EmployeeBOImpl;
 import lk.ijse.LA_CMS.DTO.EmployeeDTO;
@@ -83,7 +84,7 @@ public class EmployeeFromController {
 
     private List<Employee> employeeList = new ArrayList<>();
 
-    EmployeeBO employeeBO=new EmployeeBOImpl();
+    EmployeeBO employeeBO= (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.EMPLOYEE);
     public void initialize() throws ClassNotFoundException {
         setCellValueFactory();
         loadEmployeeTable();
