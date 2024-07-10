@@ -1,9 +1,7 @@
 package lk.ijse.LA_CMS.BO;
 
 import lk.ijse.LA_CMS.BO.custom.FoodItemsBO;
-import lk.ijse.LA_CMS.BO.custom.Impl.EmployeeBOImpl;
-import lk.ijse.LA_CMS.BO.custom.Impl.FoodItemsBOImpl;
-import lk.ijse.LA_CMS.BO.custom.Impl.SupplierBOImpl;
+import lk.ijse.LA_CMS.BO.custom.Impl.*;
 
 public class BOFactory {
     private static BOFactory boFactory;
@@ -26,6 +24,10 @@ public class BOFactory {
                 return new SupplierBOImpl();
             case FOODITEMS:
                 return new FoodItemsBOImpl();
+            case KITCHENWARE:
+                return new KitchenWareBOImpl();
+            case KITCHENWARE_MAINTAINS:
+                return new KitchenWareMaintainBOImpl();
 
         }
         return null;

@@ -12,9 +12,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.LA_CMS.BO.BOFactory;
+import lk.ijse.LA_CMS.BO.custom.KitchenWareBO;
 import lk.ijse.LA_CMS.BO.custom.SupplierBO;
 import lk.ijse.LA_CMS.DAO.custom.KitchenWareDAO;
 import lk.ijse.LA_CMS.DAO.custom.SupplierDAO;
+import lk.ijse.LA_CMS.DTO.KitchenWareDTO;
 import lk.ijse.LA_CMS.DTO.SupplierDTO;
 import lk.ijse.LA_CMS.Entity.KitchenWare;
 import lk.ijse.LA_CMS.Entity.Supplier;
@@ -72,7 +74,7 @@ public class KitchenWareFromController {
     @FXML
     private JFXButton updateKitchenWare;
 
-    KitchenWareDAO kitchenWareDAO=new KitchenWareDAOImpl();
+    KitchenWareBO kitchenWareBO= (KitchenWareBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.KITCHENWARE);
     SupplierBO supplierBO= (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
     //SupplierDAO supplierDAO=new SupplierDAOImpl();
     public void initialize() throws ClassNotFoundException {
@@ -99,7 +101,7 @@ public class KitchenWareFromController {
 
     private void loadNextOrderId() throws ClassNotFoundException {
         try {
-            String currentId = kitchenWareDAO.currentId();
+            String currentId = kitchenWareBO.currentId();
             String nextId = nextId(currentId);
 
             kId.setText(nextId);
@@ -131,8 +133,8 @@ public class KitchenWareFromController {
         ObservableList<KitchenWare> obList = FXCollections.observableArrayList();
 
         try {
-            List<KitchenWare> kitchenWareList = kitchenWareDAO.getAll();
-            for (KitchenWare kitchenWare : kitchenWareList) {
+            List<KitchenWareDTO> kitchenWareList = kitchenWareBO.getAll();
+            for (KitchenWareDTO kitchenWare : kitchenWareList) {
                 KitchenWare tm = new KitchenWare(
                         kitchenWare.getId(),
                         kitchenWare.getSupplierId(),
@@ -172,7 +174,7 @@ public class KitchenWareFromController {
         String id = kitchenWareIdSearch.getText();
 
         try {
-            KitchenWare kitchenWare = kitchenWareDAO.searchByCode(id);
+            KitchenWareDTO kitchenWare = kitchenWareBO.searchByCode(id);
 
             if (kitchenWare != null) {
                 kId.setText(kitchenWare.getId());
@@ -190,10 +192,10 @@ public class KitchenWareFromController {
         String cmbISupplierIdValue = lblsId.getText();
         String descriptionText = Description.getText();
         String qtyText = Qty.getText();
-        KitchenWare kitchenWare = new KitchenWare(idText,cmbISupplierIdValue,descriptionText,qtyText);
+        KitchenWareDTO kitchenWare = new KitchenWareDTO(idText,cmbISupplierIdValue,descriptionText,qtyText);
 
         try {
-            boolean isSaved = kitchenWareDAO.save(kitchenWare);
+            boolean isSaved = kitchenWareBO.save(kitchenWare);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "KitchenWare is Saved!").show();
                 loadNextOrderId();
@@ -225,7 +227,7 @@ public class KitchenWareFromController {
     void btnDeleteOnAction(ActionEvent event) throws ClassNotFoundException {
         String id = kId.getText();
         try {
-            boolean isDeleted = kitchenWareDAO.delete(id);
+            boolean isDeleted = kitchenWareBO.delete(id);
             if (isDeleted) {
                 KitchenWare kitchenWare = (KitchenWare) tblOrderCart.getSelectionModel().getSelectedItem();
                 if (kitchenWare != null) {
@@ -248,10 +250,10 @@ public class KitchenWareFromController {
         String descriptionText = Description.getText();
         String qtyText = Qty.getText();
 
-        KitchenWare kitchenWare = new KitchenWare(idText,supplierIdValue,descriptionText,qtyText);
+        KitchenWareDTO kitchenWare = new KitchenWareDTO(idText,supplierIdValue,descriptionText,qtyText);
 
         try {
-            boolean isUpdated = kitchenWareDAO.update(kitchenWare);
+            boolean isUpdated = kitchenWareBO.update(kitchenWare);
             if (isUpdated) {
                 KitchenWare selectedItem = (KitchenWare) tblOrderCart.getSelectionModel().getSelectedItem();
                 if (selectedItem != null) {
