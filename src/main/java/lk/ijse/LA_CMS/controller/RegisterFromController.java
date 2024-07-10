@@ -66,10 +66,13 @@ public class RegisterFromController {
         String uname = userName.getText();
         String pw = password.getText();
 
-        User user=new User(uid,eid,uname,pw);
         if(isValied()){
-            registerDAO.save(user);
-
+            registerDAO.save(new User(eid,uid,uname,pw));
+            new Alert(Alert.AlertType.ERROR, "Save una hutto user pakayawa!").show();
+            userName.clear();
+            password.clear();
+            userId.clear();
+            employeeID.clear();
         }else{
             new Alert(Alert.AlertType.ERROR, "Something Happened!").show();
         }

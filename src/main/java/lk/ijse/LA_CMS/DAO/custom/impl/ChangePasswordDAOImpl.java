@@ -1,6 +1,7 @@
 package lk.ijse.LA_CMS.DAO.custom.impl;
 
 import javafx.scene.control.Alert;
+import lk.ijse.LA_CMS.DAO.SQLUtil;
 import lk.ijse.LA_CMS.DAO.custom.ChangePasswordDAO;
 import lk.ijse.LA_CMS.DTO.ChangePasswordDTO;
 import lk.ijse.LA_CMS.Entity.User;
@@ -13,32 +14,15 @@ import java.util.List;
 
 public class ChangePasswordDAOImpl implements ChangePasswordDAO {
 
-    public boolean save(User dto) throws SQLException, ClassNotFoundException {
-        try {
-            String sql = "UPDATE User SET password = ? WHERE userName = ?";
+    public boolean save(ChangePasswordDTO dto) throws SQLException, ClassNotFoundException {
 
-            // Update based on userName only (assuming unique constraint)
-            Connection connection = DbConnection.getInstance().getConnection();
-            PreparedStatement pstm = connection.prepareStatement(sql);
 
-          //  pstm.setString(1, changePasswordDTO.getNewPassword());
-          //  pstm.setString(2, changePasswordDTO.getUserName());
+        return SQLUtil.execute("UPDATE User SET password = ? WHERE userName = ?", dto.getNewPassword(), dto.getUserName());
 
-            int rowsUpdated = pstm.executeUpdate();
-            if (rowsUpdated > 0) {
-                new Alert(Alert.AlertType.CONFIRMATION, "New Password Saved!").show();
-            } else {
-                // No rows updated, handle potential errors (e.g., user not found)
-                new Alert(Alert.AlertType.ERROR, "Password update failed. User not found.").show();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
-        return false;
     }
 
     @Override
-    public boolean update(User dto) throws SQLException, ClassNotFoundException {
+    public boolean update(ChangePasswordDTO dto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
@@ -48,28 +32,29 @@ public class ChangePasswordDAOImpl implements ChangePasswordDAO {
     }
 
     @Override
-    public User searchByDescription(String id) throws SQLException, ClassNotFoundException {
+    public ChangePasswordDTO searchByDescription(String id) throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public List<User> getAll() throws SQLException, ClassNotFoundException {
+    public List<ChangePasswordDTO> getAll() throws SQLException, ClassNotFoundException {
         return List.of();
     }
 
     @Override
-    public User searchByCode(String code) throws SQLException, ClassNotFoundException {
+    public ChangePasswordDTO searchByCode(String code) throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public List<String> getIds() {
+    public List<String> getIds() throws SQLException, ClassNotFoundException {
         return List.of();
     }
 
     @Override
-    public String currentId() {
+    public String currentId() throws SQLException, ClassNotFoundException {
         return "";
     }
+
 
 }

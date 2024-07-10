@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lk.ijse.LA_CMS.DAO.custom.ChangePasswordDAO;
 import lk.ijse.LA_CMS.DAO.custom.impl.ChangePasswordDAOImpl;
 import lk.ijse.LA_CMS.DTO.ChangePasswordDTO;
 import lk.ijse.LA_CMS.util.Regex;
@@ -52,15 +53,20 @@ public class ChangePasswordFromController {
     }
 
     @FXML
-    void saveOnAction(ActionEvent event) throws SQLException {
+    void saveOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String uname = userName.getText();
         String eid = employeeId.getText();
         String newPw = newPassword.getText();
 
         if(isValied()) {
-            ChangePasswordDTO changePasswordDTO=new ChangePasswordDTO(uname,eid,newPw);
-            ChangePasswordDAOImpl changePassword = new ChangePasswordDAOImpl();
-            //changePassword.save(changePasswordDTO);
+            ChangePasswordDAO changePasswordDAO = new ChangePasswordDAOImpl();
+            changePasswordDAO.save(new ChangePasswordDTO(uname,eid,newPw));
+            new Alert(Alert.AlertType.CONFIRMATION, "User saved successfully!").show();
+            userName.clear();
+            employeeId.clear();
+            newPassword.clear();
+
+
         }else {
             new Alert(Alert.AlertType.ERROR, "Password update failed. User not found").show();
         }
