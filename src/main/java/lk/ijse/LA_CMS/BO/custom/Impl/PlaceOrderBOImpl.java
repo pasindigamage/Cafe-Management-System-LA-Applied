@@ -1,6 +1,7 @@
 package lk.ijse.LA_CMS.BO.custom.Impl;
 
 import lk.ijse.LA_CMS.BO.custom.PlaceOrderBO;
+import lk.ijse.LA_CMS.DAO.DAOFactory;
 import lk.ijse.LA_CMS.DAO.SQLUtil;
 import lk.ijse.LA_CMS.DAO.custom.FoodItemsDAO;
 import lk.ijse.LA_CMS.DAO.custom.OrderDetailDAO;
@@ -18,10 +19,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class PlaceOrderBOImpl implements PlaceOrderBO {
-
-    OrderDetailDAO orderDetailDAO=new OrderDetailDAOImpl();
-    OrdersDAO ordersDAO=new OrdersDAOImpl();
-    FoodItemsDAO foodItemsDAO=new FoodItemsDAOImpl();
+    OrderDetailDAO orderDetailDAO= (OrderDetailDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDER_DETAIL);
+    OrdersDAO ordersDAO= (OrdersDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDERS);
+    FoodItemsDAO foodItemsDAO= (FoodItemsDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.FOODITEMS);
 
     public boolean placeOrder(PlaceOrder po) throws ClassNotFoundException {
         try {
