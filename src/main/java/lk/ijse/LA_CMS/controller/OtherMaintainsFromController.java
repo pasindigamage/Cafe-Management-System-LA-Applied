@@ -75,7 +75,7 @@ public class OtherMaintainsFromController {
     private Label omId;
 
     @FXML
-    private TableView<OtherMaintains> tblOrderCart;
+    private TableView<OtherMaintainsDTO> tblOrderCart;
 
     @FXML
     private JFXButton updateOtherMaintains;
@@ -135,12 +135,12 @@ public class OtherMaintainsFromController {
     }
 
     private void loadCustomerTable() throws ClassNotFoundException {
-        ObservableList<OtherMaintains> obList = FXCollections.observableArrayList();
+        ObservableList<OtherMaintainsDTO> obList = FXCollections.observableArrayList();
 
         try {
             List<OtherMaintainsDTO> otherMaintainsList = otherMaintainBO.getAll();
             for (OtherMaintainsDTO otherMaintains : otherMaintainsList) {
-                OtherMaintains tm = new OtherMaintains(
+                OtherMaintainsDTO tm = new OtherMaintainsDTO(
                         otherMaintains.getId(),
                         otherMaintains.getDescription(),
                         otherMaintains.getDate(),
@@ -192,24 +192,38 @@ public class OtherMaintainsFromController {
     }
 
     private void clearFields() {
-        omDescription.setText("");
-        date.setText("");
-        amount.setText("");
+        omDescription.clear();
+        //date.setText("");
+        amount.clear();
     }
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) throws ClassNotFoundException {
-        String id = omId.getText();
+        ObservableList<OtherMaintainsDTO> selectedDTOS = tblOrderCart.getSelectionModel().getSelectedItems();
+        if (selectedDTOS.isEmpty()) {
+            new Alert(Alert.AlertType.WARNING, "Please select location(s) to delete!").show();
+            return;
+        }
 
-        try {
-            boolean isDeleted = otherMaintainBO.delete(id);
-            if (isDeleted) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Maintain is Removed!").show();
-                loadCustomerTable();
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the selected Maintains?");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.showAndWait();
 
+        if (confirmationAlert.getResult() == ButtonType.OK) {
+            try {
+                for (OtherMaintainsDTO otherMaintainsDTO : selectedDTOS) {
+                    boolean isDeleted = otherMaintainBO.delete(otherMaintainsDTO.getId());
+                    if (isDeleted) {
+                        tblOrderCart.getItems().remove(otherMaintainsDTO);
+                    } else {
+                        new Alert(Alert.AlertType.ERROR, "Failed to delete : " + otherMaintainsDTO.getId()).show();
+                    }
+                }
+                new Alert(Alert.AlertType.CONFIRMATION, " deleted successfully!").show();
+                clearFields();
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "Error occurred while deleting : " + e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
@@ -234,5 +248,4 @@ public class OtherMaintainsFromController {
         }
 
     }
-
 }
