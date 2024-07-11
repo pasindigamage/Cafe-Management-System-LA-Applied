@@ -26,10 +26,8 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     public boolean placeOrder(PlaceOrder po) throws ClassNotFoundException {
         try {
             boolean isOrderSaved = ordersDAO.save(po.getOrder());
-
             if (isOrderSaved && orderDetailDAO.save1(po.getOdList())) {
                 boolean isQtyUpdated = foodItemsDAO.update1(po.getOdList());
-
                 if (isQtyUpdated) {
                     return true;
                 }
@@ -41,31 +39,26 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
         }
     }
 
-    public  String currentId() throws SQLException {
-        ResultSet resultSet= SQLUtil.execute("SELECT id FROM Orders ORDER BY id desc LIMIT 1");
-        if (resultSet.next()) {
-            return resultSet.getString(1);
-        }
-        return null;
+    public  String currentId() throws SQLException, ClassNotFoundException {
+        return ordersDAO.currentId();
     }
 
-    public boolean save(Order order) throws SQLException {
-        return SQLUtil.execute(("INSERT INTO Orders  VALUES (?, ?, ?, ?)"),order.getId(),
-                order.getUId(),order.getDate(),order.getAmount());
+    public boolean saveOrder(Order order) throws SQLException, ClassNotFoundException {
+        return ordersDAO.save(new Order(order.getId(),
+                order.getUId(),order.getDate(),order.getAmount()));
     }
 
     public  boolean save1(List<OrderDetail> odList) throws SQLException, ClassNotFoundException {
         for (OrderDetail od : odList) {
-            if(!save(od)) {
+            if(!saveOrderDetail(od)) {
                 return false;
             }
         }
         return true;
     }
 
-    public boolean save(OrderDetail od) throws SQLException, ClassNotFoundException {
-        return SQLUtil.execute(("INSERT INTO orderDetails  VALUES (?, ?, ?)"),od.getOrderId(),
-                od.getFoodItemId(),od.getQty());
+    public boolean saveOrderDetail(OrderDetail od) throws SQLException, ClassNotFoundException {
+        return orderDetailDAO.save(new OrderDetail(od.getOrderId(),
+                od.getFoodItemId(),od.getQty()));
     }
-
 }

@@ -33,7 +33,8 @@ public class BOFactory {
                 return new CredintialBOImpl();
             case INVENTORY:
                 return new InventorySupplierDetailBOImpl();
-
+            case PLACE_ORDER:
+                return new PlaceOrderBOImpl();
         }
         return null;
     }

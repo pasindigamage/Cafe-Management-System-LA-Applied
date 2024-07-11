@@ -25,8 +25,14 @@ public class InventorySupplierDetailBOImpl implements InventorySupplierDetailBO 
     }
 
 
-    public List<InventorySupplierDTO> getAll() throws SQLException {
+    public List<InventorySupplierDTO> getAll() throws SQLException, ClassNotFoundException {
         List<InventorySupplierDTO> InventorySupplierDetailList = new ArrayList<>();
+        List<InventorySupplier> inventorySuppliers=inventorySupplierDetailDAO.getAll();
+        for (InventorySupplier inventoryDetail:inventorySuppliers){
+            InventorySupplierDTO inventorySupplierDTO=new InventorySupplierDTO(inventoryDetail.getSupplierId(),
+                    inventoryDetail.getInventoryId(), inventoryDetail.getDate());
+            InventorySupplierDetailList.add(inventorySupplierDTO);
+        }
 
         return InventorySupplierDetailList;
     }

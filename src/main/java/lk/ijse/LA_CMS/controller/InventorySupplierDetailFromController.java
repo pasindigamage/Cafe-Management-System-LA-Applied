@@ -15,6 +15,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.LA_CMS.BO.BOFactory;
+import lk.ijse.LA_CMS.BO.custom.FoodItemsBO;
+import lk.ijse.LA_CMS.BO.custom.InventorySupplierDetailBO;
 import lk.ijse.LA_CMS.BO.custom.SupplierBO;
 import lk.ijse.LA_CMS.DAO.custom.FoodItemsDAO;
 import lk.ijse.LA_CMS.DAO.custom.InventorySupplierDetailDAO;
@@ -22,6 +24,8 @@ import lk.ijse.LA_CMS.DAO.custom.SupplierDAO;
 import lk.ijse.LA_CMS.DAO.custom.impl.FoodItemsDAOImpl;
 import lk.ijse.LA_CMS.DAO.custom.impl.InventorySupplierDetailDAOImpl;
 import lk.ijse.LA_CMS.DAO.custom.impl.SupplierDAOImpl;
+import lk.ijse.LA_CMS.DTO.FoodItemsDTO;
+import lk.ijse.LA_CMS.DTO.InventorySupplierDTO;
 import lk.ijse.LA_CMS.DTO.SupplierDTO;
 import lk.ijse.LA_CMS.Entity.*;
 
@@ -96,8 +100,8 @@ public class InventorySupplierDetailFromController {
     @FXML
     private JFXButton updateInventroySupplier;
 
-    InventorySupplierDetailDAO inventorySupplierDetailDAO=new InventorySupplierDetailDAOImpl();
-    FoodItemsDAO foodItemsDAO=new FoodItemsDAOImpl();
+    InventorySupplierDetailBO inventorySupplierDetailBO= (InventorySupplierDetailBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.INVENTORY);
+    FoodItemsBO foodItemsBO= (FoodItemsBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.FOODITEMS);
     SupplierBO supplierBO= (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
 
     //SupplierDAO supplierDAO=new SupplierDAOImpl();
@@ -123,7 +127,7 @@ public class InventorySupplierDetailFromController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<String> idList = foodItemsDAO.getIds();
+            List<String> idList = foodItemsBO.getIds();
 
             for (String id : idList) {
                 obList.add(id);
@@ -139,7 +143,7 @@ public class InventorySupplierDetailFromController {
     void cmbInventoryOnAction(ActionEvent event) throws ClassNotFoundException {
         String id = cmbIInventoryId.getValue();
         try {
-            FoodItems foodItems = foodItemsDAO.searchByCode(id);
+            FoodItemsDTO foodItems = foodItemsBO.searchByCode(id);
             if (foodItems != null) {
                 lblInventoryId.setText(foodItems.getId());
             }
@@ -148,28 +152,6 @@ public class InventorySupplierDetailFromController {
         }
     }
 
-   /* private void loadNextOrderId() {
-        try {
-            String currentId = InventorySupplierDetailRepo.currentId();
-            String nextId = nextId(currentId);
-
-            inventoryId.setText(nextId);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private String nextId(String currentId) {
-        if (currentId != null) {
-            String[] split = currentId.split("IS00");
-            int id = Integer.parseInt(split[1]);    //2
-            return "IS00" + ++id;
-
-        }
-        return "IS001";
-    }
-*/
-
     @FXML
     private TableColumn<?, ?> colSupName;
 
@@ -177,8 +159,8 @@ public class InventorySupplierDetailFromController {
         ObservableList<InventorySupplier> obList = FXCollections.observableArrayList();
 
         try {
-            List<InventorySupplier> inventorySupplierDetailList = inventorySupplierDetailDAO.getAll();
-            for (InventorySupplier inventorySupplierDetail : inventorySupplierDetailList) {
+            List<InventorySupplierDTO> inventorySupplierDetailList = inventorySupplierDetailBO.getAll();
+            for (InventorySupplierDTO inventorySupplierDetail : inventorySupplierDetailList) {
                 InventorySupplier tm = new InventorySupplier(
                         inventorySupplierDetail.getSupplierId(),
                         inventorySupplierDetail.getInventoryId(),
@@ -229,9 +211,9 @@ public class InventorySupplierDetailFromController {
             String ingrediansValue = lblInventoryId.getText();
             Date dateText = Date.valueOf(lblOrderDate.getText());
 
-            InventorySupplier inventoryDetail = new InventorySupplier(supplierIdValue, ingrediansValue, dateText);
+            InventorySupplierDTO inventoryDetail = new InventorySupplierDTO(supplierIdValue, ingrediansValue, dateText);
 
-            boolean isSaved = inventorySupplierDetailDAO.save(inventoryDetail);
+            boolean isSaved = inventorySupplierDetailBO.save(inventoryDetail);
             if (isSaved) {
                 tblOrderCart.getItems().add(inventoryDetail);
 
@@ -252,7 +234,7 @@ public class InventorySupplierDetailFromController {
     }
 
     private void clearFields() throws ClassNotFoundException {
-        inventoryIdSearch.setText("");
+        //inventoryIdSearch.setText("");
         lblInventoryId.setText("");
         lblsId.setText("");
         cmbISupplierId.setValue("");
@@ -275,7 +257,7 @@ public class InventorySupplierDetailFromController {
         if (confirmationAlert.getResult() == ButtonType.OK) {
             try {
                 for (InventorySupplier inventorySupplierDetail : selectedInventorySupplierDetail) {
-                    boolean isDeleted = inventorySupplierDetailDAO.delete(inventorySupplierDetail.getInventoryId());
+                    boolean isDeleted = inventorySupplierDetailBO.delete(inventorySupplierDetail.getInventoryId());
                     if (isDeleted) {
                         tblOrderCart.getItems().remove(inventorySupplierDetail);
                     } else {
@@ -293,24 +275,20 @@ public class InventorySupplierDetailFromController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) throws NumberFormatException, IllegalArgumentException, ClassNotFoundException {
-        try {
-            String supplierIdValue = lblsId.getText();
-            String ingrediansValue = lblInventoryId.getText();
-            //String descriptionText = Description.getText();
-            Date dateText = Date.valueOf(lblOrderDate.getText());
+        String supplierIdValue = lblsId.getText();
+        String ingrediansValue = lblInventoryId.getText();
+        //String descriptionText = Description.getText();
+        Date dateText = Date.valueOf(lblOrderDate.getText());
 
 
-            InventorySupplier inventoryDetail = new InventorySupplier(supplierIdValue, ingrediansValue, dateText);
+        InventorySupplier inventoryDetail = new InventorySupplier(supplierIdValue, ingrediansValue, dateText);
 
-            boolean isUpdated = inventorySupplierDetailDAO.update(inventoryDetail);
+            /*boolean isUpdated = inventorySupplierDetailBO.update(inventoryDetail);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Inventory Updated!").show();
                 loadInventoryTable();
                 clearFields();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
+            }*/
     }
 
     private Double parseDouble(String value) {
@@ -334,18 +312,4 @@ public class InventorySupplierDetailFromController {
         }
     }
 
-    @FXML
-    private TextField inventoryIdSearch;
-
-    public void IdSearchOnAction(ActionEvent actionEvent) throws SQLException {
-        String id = inventoryIdSearch.getText();
-
-            InventorySupplier inventoryDetail = inventorySupplierDetailDAO.searchByDate(id);
-
-            if (inventoryIdSearch != null) {
-                lblOrderDate.setText(String.valueOf(inventoryDetail.getDate()));
-                lblsId.setText(inventoryDetail.getSupplierId());
-            }
-
-    }
 }

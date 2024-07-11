@@ -15,7 +15,7 @@ import java.util.List;
 public interface InventorySupplierDetailBO extends SuperBO {
     public boolean save(InventorySupplierDTO inventoryDetail) throws SQLException, ClassNotFoundException;
     public boolean delete(String id) throws SQLException, ClassNotFoundException;
-    public List<InventorySupplierDTO> getAll() throws SQLException;
+    public List<InventorySupplierDTO> getAll() throws SQLException, ClassNotFoundException;
     public String currentId() throws SQLException, ClassNotFoundException;
     public boolean updateQty(List<OrderDetail> odList) throws SQLException;
     public boolean updateQty(OrderDetail od) throws SQLException;
