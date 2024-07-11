@@ -8,6 +8,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lk.ijse.LA_CMS.BO.custom.CredintialBO;
+import lk.ijse.LA_CMS.BO.custom.Impl.CredintialBOImpl;
 import lk.ijse.LA_CMS.DAO.custom.RegisterDAO;
 import lk.ijse.LA_CMS.DAO.custom.impl.RegisterDAOImpl;
 import lk.ijse.LA_CMS.Entity.User;
@@ -33,7 +35,7 @@ public class RegisterFromController {
     @FXML
     private TextField userName;
 
-    RegisterDAO registerDAO=new RegisterDAOImpl();
+    CredintialBO credintialBO=new CredintialBOImpl();
     public void initialize(){
         employeeID.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -67,7 +69,7 @@ public class RegisterFromController {
         String pw = password.getText();
 
         if(isValied()){
-            registerDAO.save(new User(eid,uid,uname,pw));
+            credintialBO.saveUser(new User(eid,uid,uname,pw));
             new Alert(Alert.AlertType.CONFIRMATION, "Registration successfully!").show();
             userName.clear();
             password.clear();

@@ -29,6 +29,8 @@ public class BOFactory {
                 return new KitchenWareMaintainBOImpl();
             case OTHER_MAINTAINS:
                 return new OtherMaintainBOImpl();
+            case CREDINTIAL:
+                return new CredintialBOImpl();
 
         }
         return null;

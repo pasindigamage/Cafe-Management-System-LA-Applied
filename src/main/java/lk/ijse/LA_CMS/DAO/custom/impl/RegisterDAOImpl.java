@@ -14,8 +14,8 @@ import java.util.List;
 public class RegisterDAOImpl implements RegisterDAO {
     public boolean save(User user) throws SQLException {
         return SQLUtil.execute("INSERT INTO User VALUES(?, ?, ?, ?)",
-                user.getEmployeeId(),
                 user.getId(),
+                user.getEmployeeId(),
                 user.getUserName(),
                 user.getPassword());
     }

@@ -8,8 +8,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import lk.ijse.LA_CMS.DAO.custom.ChangePasswordDAO;
-import lk.ijse.LA_CMS.DAO.custom.impl.ChangePasswordDAOImpl;
+import lk.ijse.LA_CMS.BO.BOFactory;
+import lk.ijse.LA_CMS.BO.custom.CredintialBO;
+import lk.ijse.LA_CMS.BO.custom.Impl.CredintialBOImpl;
 import lk.ijse.LA_CMS.DTO.ChangePasswordDTO;
 import lk.ijse.LA_CMS.util.Regex;
 
@@ -59,8 +60,8 @@ public class ChangePasswordFromController {
         String newPw = newPassword.getText();
 
         if(isValied()) {
-            ChangePasswordDAO changePasswordDAO = new ChangePasswordDAOImpl();
-            changePasswordDAO.save(new ChangePasswordDTO(uname,eid,newPw));
+            CredintialBO changePasswordBO = (CredintialBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.CREDINTIAL);
+            changePasswordBO.changePassword(new ChangePasswordDTO(uname,eid,newPw));
             new Alert(Alert.AlertType.CONFIRMATION, "User saved successfully!").show();
             userName.clear();
             employeeId.clear();
