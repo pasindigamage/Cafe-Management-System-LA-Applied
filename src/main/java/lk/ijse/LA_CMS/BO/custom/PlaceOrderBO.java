@@ -13,8 +13,8 @@ import java.util.List;
 
 public interface PlaceOrderBO extends SuperBO {
     public boolean placeOrder(PlaceOrder po) throws ClassNotFoundException;
-    public String currentId() throws SQLException;
-    public boolean save(Order order) throws SQLException;
+    public String currentId() throws SQLException, ClassNotFoundException;
+    public boolean saveOrder(Order order) throws SQLException, ClassNotFoundException;
     public boolean save1(List<OrderDetail> odList) throws SQLException, ClassNotFoundException;
-    public boolean save(OrderDetail od) throws SQLException, ClassNotFoundException;
+    public boolean saveOrderDetail(OrderDetail od) throws SQLException, ClassNotFoundException;
 }
