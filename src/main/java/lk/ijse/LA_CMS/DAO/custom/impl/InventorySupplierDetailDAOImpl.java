@@ -75,7 +75,7 @@ public class InventorySupplierDetailDAOImpl implements InventorySupplierDetailDA
         return true;
     }
 
-    private boolean updateQty(OrderDetail od) throws SQLException {
+    public boolean updateQty(OrderDetail od) throws SQLException {
         return SQLUtil.execute(("SELECT (sub1.qty - sub2.multiplied_qty) AS result\n" +
                 "FROM (\n" +
                 "    SELECT inventorySupplier.qty\n" +
@@ -89,10 +89,5 @@ public class InventorySupplierDetailDAOImpl implements InventorySupplierDetailDA
                 "    FROM IngrediansDetail\n" +
                 "    WHERE IngrediansDetail.foodItemId = ?\n" +
                 ") AS sub2;"),od);
-    }
-
-    @Override
-    public InventorySupplier searchByDate(String id) throws SQLException {
-        return null;
     }
 }

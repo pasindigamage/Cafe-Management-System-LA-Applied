@@ -106,8 +106,6 @@ public class OrderFromController {
         loadNextOrderId();
         setCashier();
         setCellValueFactory();
-        // setCashier();
-
     }
 
     private void loadNextOrderId() throws ClassNotFoundException {
