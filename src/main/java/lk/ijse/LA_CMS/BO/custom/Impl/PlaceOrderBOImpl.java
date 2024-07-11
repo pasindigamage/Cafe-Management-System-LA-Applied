@@ -21,22 +21,9 @@ import java.util.List;
 public class PlaceOrderBOImpl implements PlaceOrderBO {
     OrderDetailDAO orderDetailDAO= (OrderDetailDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDER_DETAIL);
     OrdersDAO ordersDAO= (OrdersDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDERS);
-    FoodItemsDAO foodItemsDAO= (FoodItemsDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.FOODITEMS);
-
+    PlaceOrderDAO placeOrderDAO= (PlaceOrderDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PLACE_ORDER);
     public boolean placeOrder(PlaceOrder po) throws ClassNotFoundException {
-        try {
-            boolean isOrderSaved = ordersDAO.save(po.getOrder());
-            if (isOrderSaved && orderDetailDAO.save1(po.getOdList())) {
-                boolean isQtyUpdated = foodItemsDAO.update1(po.getOdList());
-                if (isQtyUpdated) {
-                    return true;
-                }
-            }
-            return false;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return placeOrderDAO.placeOrder(po);
     }
 
     public  String currentId() throws SQLException, ClassNotFoundException {
@@ -49,12 +36,7 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     }
 
     public  boolean save1(List<OrderDetail> odList) throws SQLException, ClassNotFoundException {
-        for (OrderDetail od : odList) {
-            if(!saveOrderDetail(od)) {
-                return false;
-            }
-        }
-        return true;
+        return orderDetailDAO.save1(odList);
     }
 
     public boolean saveOrderDetail(OrderDetail od) throws SQLException, ClassNotFoundException {
