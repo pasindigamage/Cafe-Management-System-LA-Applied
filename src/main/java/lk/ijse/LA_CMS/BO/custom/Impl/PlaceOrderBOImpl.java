@@ -34,7 +34,6 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
                     return true;
                 }
             }
-
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
