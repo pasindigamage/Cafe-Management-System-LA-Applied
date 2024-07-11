@@ -31,6 +31,8 @@ public class BOFactory {
                 return new OtherMaintainBOImpl();
             case CREDINTIAL:
                 return new CredintialBOImpl();
+            case INVENTORY:
+                return new InventorySupplierDetailBOImpl();
 
         }
         return null;

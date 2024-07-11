@@ -76,7 +76,7 @@ public class KitchenWareFromController {
 
     KitchenWareBO kitchenWareBO= (KitchenWareBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.KITCHENWARE);
     SupplierBO supplierBO= (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
-    //SupplierDAO supplierDAO=new SupplierDAOImpl();
+
     public void initialize() throws ClassNotFoundException {
         getSupplierIds();
         loadInventoryTable();

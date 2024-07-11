@@ -62,21 +62,18 @@ public class FoodItemsBOImpl implements FoodItemsBO {
             return foodItemsDAO.currentId();
     }
 
-    @Override
     public boolean update1(List<OrderDetail> odList) throws SQLException {
-        return false;
+        for (OrderDetail od : odList) {
+            boolean isUpdateQty = updateQty(od.getFoodItemId(), od.getQty());
+            if(!isUpdateQty) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    @Override
     public boolean updateQty(String Id, int qty) throws SQLException {
-        return false;
+        return SQLUtil.execute(("UPDATE FoodItems SET qtyOnHand = qtyOnHand - ? WHERE id = ?"),qty,Id);
     }
 
-  /*  public  boolean update1(List<OrderDetail> odList) throws SQLException {
-        return foodItemsDAO.update1();
-    }
-
-   public boolean updateQty(String Id, int qty) throws SQLException {
-        return foodItemsDAO.updateQty(Id,qty);
-    }*/
 }

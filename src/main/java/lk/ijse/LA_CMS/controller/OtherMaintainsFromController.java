@@ -187,17 +187,6 @@ public class OtherMaintainsFromController {
     }
 
     @FXML
-    void btnBackOnAction(ActionEvent event) throws IOException {
-        AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/maintains.fxml"));
-
-        Scene scene = new Scene(rootNode);
-
-        Stage stage = (Stage) this.rootNode.getScene().getWindow();
-        stage.setScene(scene);
-        stage.centerOnScreen();
-    }
-
-    @FXML
     void btnClearOnAction(ActionEvent event) {
         clearFields();
     }
