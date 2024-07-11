@@ -77,7 +77,7 @@ public class LoginFromController {
     public static String signPerson;
 
     private void checkCredential(String un, String pw) throws SQLException, IOException {
-       // ResultSet resultSet=SQLUtil.execute("SELECT userName, password FROM User WHERE userName = ?;");
+
         String sql = "SELECT userName, password FROM User WHERE userName = ?";
 
         Connection connection = DbConnection.getInstance().getConnection();
@@ -105,7 +105,6 @@ public class LoginFromController {
         String sql = "SELECT id FROM User WHERE userName = ?";
 
         getSignPersonID = null;
-
         try (Connection connection = DbConnection.getInstance().getConnection();
              PreparedStatement pstm = connection.prepareStatement(sql)) {
 
