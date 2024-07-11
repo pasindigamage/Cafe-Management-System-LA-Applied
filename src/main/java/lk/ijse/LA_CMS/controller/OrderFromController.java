@@ -12,11 +12,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.LA_CMS.BO.BOFactory;
+import lk.ijse.LA_CMS.BO.custom.FoodItemsBO;
+import lk.ijse.LA_CMS.BO.custom.PlaceOrderBO;
 import lk.ijse.LA_CMS.DAO.custom.OrdersDAO;
 import lk.ijse.LA_CMS.DAO.custom.PlaceOrderDAO;
 import lk.ijse.LA_CMS.DAO.custom.impl.FoodItemsDAOImpl;
 import lk.ijse.LA_CMS.DAO.custom.impl.OrdersDAOImpl;
 import lk.ijse.LA_CMS.DAO.custom.impl.PlaceOrderDAOImpl;
+import lk.ijse.LA_CMS.DTO.FoodItemsDTO;
 import lk.ijse.LA_CMS.db.DbConnection;
 import lk.ijse.LA_CMS.Entity.*;
 import lk.ijse.LA_CMS.view.tdm.CartTM;
@@ -93,13 +97,11 @@ public class OrderFromController {
 
     @FXML
     private AnchorPane rootNode;
-    // private ObservableList<CartTM> obList = FXCollections.observableArrayList();
 
     private double netTotal;
 
-    OrdersDAO ordersDAO=new OrdersDAOImpl();
-    PlaceOrderDAO placeOrderDAO=new PlaceOrderDAOImpl();
-    FoodItemsDAOImpl foodItemsDAO=new FoodItemsDAOImpl();
+    FoodItemsBO foodItemsBO= (FoodItemsBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.FOODITEMS);
+    PlaceOrderBO placeOrderBO= (PlaceOrderBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.PLACE_ORDER);
     public void initialize() throws ClassNotFoundException {
         setDate();
         getFoodItems();
@@ -110,7 +112,7 @@ public class OrderFromController {
 
     private void loadNextOrderId() throws ClassNotFoundException {
         try {
-            String currentId = ordersDAO.currentId();
+            String currentId = placeOrderBO.currentId();
             String nextId = nextId(currentId);
 
             lblOrderId.setText(nextId);
@@ -137,8 +139,6 @@ public class OrderFromController {
     private void setCashier(){
         String un = signPerson;
         lblUserName.setText(un);
-        //     lblUserName.setText("USR001");
-
     }
 
 
@@ -257,7 +257,7 @@ public class OrderFromController {
             odList.add(od);
         }
         PlaceOrder po = new PlaceOrder(order, odList);
-        boolean isPlaced = placeOrderDAO.placeOrder(po); //  OrdersRepo.save(order);
+        boolean isPlaced = placeOrderBO.placeOrder(po); //  OrdersRepo.save(order);
 
         if(isPlaced) {
             printBill();
@@ -283,23 +283,23 @@ public class OrderFromController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<String> idList = foodItemsDAO.getIds();
+            List<String> idList = foodItemsBO.getIds();
 
             for (String id : idList) {
                 obList.add(id);
             }
             cmbItemCode.setItems(obList);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
     @FXML
-    void cmbItemOnAction(ActionEvent event) {
+    void cmbItemOnAction(ActionEvent event) throws ClassNotFoundException {
         String itemCodeValue = cmbItemCode.getValue();
         try {
-            FoodItems foodItems = foodItemsDAO.searchByCode(itemCodeValue);
+            FoodItemsDTO foodItems = foodItemsBO.searchByCode(itemCodeValue);
             if (foodItems != null) {
                 lblDescription.setText(foodItems.getId());
                 lblUnitPrice.setText(String.valueOf(foodItems.getUnitPrice()));

@@ -170,23 +170,6 @@ public class KitchenWareFromController {
     private TextField kitchenWareIdSearch;
 
     @FXML
-    void IdSearchOnAction(ActionEvent event) throws ClassNotFoundException {
-        String id = kitchenWareIdSearch.getText();
-
-        try {
-            KitchenWareDTO kitchenWare = kitchenWareBO.searchByCode(id);
-
-            if (kitchenWare != null) {
-                kId.setText(kitchenWare.getId());
-                Description.setText(kitchenWare.getDescription());
-                Qty.setText(kitchenWare.getQty());
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
-    }
-
-    @FXML
     void btnAddOnAction(ActionEvent event) throws ClassNotFoundException {
         String idText = kId.getText();
         String cmbISupplierIdValue = lblsId.getText();
