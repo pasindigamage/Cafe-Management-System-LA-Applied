@@ -340,8 +340,6 @@ public class OrderFromController {
         jasperDesign.setQuery(jrDesignQuery);
         JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
 
-
-
         JasperPrint jasperPrint =
                 JasperFillManager.fillReport(jasperReport, null, DbConnection.getInstance().getConnection());
         JasperViewer.viewReport(jasperPrint,false);

@@ -104,15 +104,12 @@ public class InventorySupplierDetailFromController {
     FoodItemsBO foodItemsBO= (FoodItemsBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.FOODITEMS);
     SupplierBO supplierBO= (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
 
-    //SupplierDAO supplierDAO=new SupplierDAOImpl();
     public void initialize() throws ClassNotFoundException {
         setDate();
         getSupplierIds();
         getInventoryIds();
         loadInventoryTable();
         setCellValueFactory();
-        // loadNextOrderId();
-
 
         tblOrderCart.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -176,12 +173,10 @@ public class InventorySupplierDetailFromController {
     }
 
     private void setCellValueFactory() {
-        //colInventoryId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("inventoryId"));
         colSupName.setCellValueFactory(new PropertyValueFactory<>("supplierId"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        // colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
-        // colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+
     }
     private void setDate() {
         LocalDate now = LocalDate.now();
@@ -271,24 +266,6 @@ public class InventorySupplierDetailFromController {
                 new Alert(Alert.AlertType.ERROR, "Error occurred while deleting inventorySupplierDetail(s): " + e.getMessage()).show();
             }
         }
-    }
-
-    @FXML
-    void btnUpdateOnAction(ActionEvent event) throws NumberFormatException, IllegalArgumentException, ClassNotFoundException {
-        String supplierIdValue = lblsId.getText();
-        String ingrediansValue = lblInventoryId.getText();
-        //String descriptionText = Description.getText();
-        Date dateText = Date.valueOf(lblOrderDate.getText());
-
-
-        InventorySupplier inventoryDetail = new InventorySupplier(supplierIdValue, ingrediansValue, dateText);
-
-            /*boolean isUpdated = inventorySupplierDetailBO.update(inventoryDetail);
-            if (isUpdated) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Inventory Updated!").show();
-                loadInventoryTable();
-                clearFields();
-            }*/
     }
 
     private Double parseDouble(String value) {

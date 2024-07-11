@@ -109,8 +109,6 @@ public class KitchenWareMaintainsFromController {
                 cmbIKitchenWareId.setValue(newSelection.getKitchenWareId());
                 kmId.setText(newSelection.getId());
 
-
-
             }
         });
     }

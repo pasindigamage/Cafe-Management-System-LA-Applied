@@ -80,7 +80,6 @@ public class SupplierFromController {
     @FXML
     private JFXButton updateSuppler;
 
-    //SupplierDAO supplierDAO=new SupplierDAOImpl();
     SupplierBO supplierBO= (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
 
     public void initialize() throws ClassNotFoundException {
@@ -117,9 +116,6 @@ public class SupplierFromController {
                 sAddress.setText(String.valueOf(newSelection.getCompanyAddress()));
                 sContact.setText(String.valueOf(newSelection.getContact()));
                 sEmail.setText(String.valueOf(newSelection.getEmail()));
-
-
-
             }
         });
     }

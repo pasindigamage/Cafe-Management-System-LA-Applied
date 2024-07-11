@@ -15,10 +15,7 @@ import java.util.List;
 public class ChangePasswordDAOImpl implements ChangePasswordDAO {
 
     public boolean save(ChangePasswordDTO dto) throws SQLException, ClassNotFoundException {
-
-
         return SQLUtil.execute("UPDATE User SET password = ? WHERE userName = ?", dto.getNewPassword(), dto.getUserName());
-
     }
 
     @Override

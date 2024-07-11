@@ -97,8 +97,6 @@ public class OtherMaintainsFromController {
                 omDescription.setText(newSelection.getDescription());
                 amount.setText(String.valueOf(newSelection.getAmount()));
 
-
-
             }
         });
     }
@@ -193,7 +191,6 @@ public class OtherMaintainsFromController {
 
     private void clearFields() {
         omDescription.clear();
-        //date.setText("");
         amount.clear();
     }
 

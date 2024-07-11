@@ -199,7 +199,6 @@ public class KitchenWareFromController {
         Description.setText("");
         cmbISupplierId.setValue("");
         Qty.setText("");
-        //kitchenWareIdSearch.setText("");
         cmbISupplierId.setValue("");
         lblsId.setText("");
         loadNextOrderId();

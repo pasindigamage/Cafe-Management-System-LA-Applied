@@ -99,7 +99,7 @@ public class RegisterFromController {
 
     @FXML
     void txtUserIdOnKeyReleased(KeyEvent event) {
-        //    Regex.setTextColor(lk.ijse.buddiescafe.util.TextField.name,eName);
+            //Regex.setTextColor(lk.ijse.LA_CMS.util.TextField.name,eName);
     }
 
     @FXML

@@ -41,7 +41,6 @@ public class LoadingController {
     private double progress = 0.0;
 
     public void initialize() {
-        //animateLabel();
         progressBar.setStyle("-fx-accent: #FF926B;");
 
         Timeline timeline = new Timeline(
@@ -79,24 +78,4 @@ public class LoadingController {
             e.printStackTrace();
         }
     }
-   /* private void animateLabel() {
-
-        Timeline timeline = new Timeline();
-        KeyFrame keyFrame = new KeyFrame(
-                Duration.seconds(0.15),
-                event -> {
-                    if (currentIndex <= fullTitle.length()) {
-                        lblTopic.setText(fullTitle.substring(0, currentIndex));
-                        currentIndex++;
-                    }
-                }
-        );
-
-        timeline.getKeyFrames().add(keyFrame);
-        timeline.setCycleCount(fullTitle.length() + 1);
-
-
-        timeline.play();
-
-    }*/
 }
