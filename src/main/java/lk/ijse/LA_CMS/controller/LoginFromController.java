@@ -14,7 +14,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.LA_CMS.DAO.SQLUtil;
 import lk.ijse.LA_CMS.db.DbConnection;
+import lk.ijse.LA_CMS.util.Regex;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -75,6 +77,7 @@ public class LoginFromController {
     public static String signPerson;
 
     private void checkCredential(String un, String pw) throws SQLException, IOException {
+       // ResultSet resultSet=SQLUtil.execute("SELECT userName, password FROM User WHERE userName = ?;");
         String sql = "SELECT userName, password FROM User WHERE userName = ?";
 
         Connection connection = DbConnection.getInstance().getConnection();
@@ -82,6 +85,7 @@ public class LoginFromController {
         pstm.setObject(1, un);
 
         ResultSet resultSet = pstm.executeQuery();
+
         if(resultSet.next()) {
             String dbPw = resultSet.getString(2);
 
@@ -167,15 +171,5 @@ public class LoginFromController {
 
         stage.show();
 
-    }
-
-    @FXML
-    void txtPwOnKeyReleased(KeyEvent event) {
-     //   Regex.setTextColor(lk.ijse.buddiescafe.util.TextField.password,password);
-    }
-
-    @FXML
-    void txtUnameOnKeyReleased(KeyEvent event) {
-       // Regex.setTextColor(lk.ijse.buddiescafe.util.TextField.useName,userName);
     }
 }

@@ -13,7 +13,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.LA_CMS.BO.BOFactory;
+import lk.ijse.LA_CMS.BO.custom.OtherMaintainBO;
 import lk.ijse.LA_CMS.DAO.custom.OtherMaintainDAO;
+import lk.ijse.LA_CMS.DTO.OtherMaintainsDTO;
 import lk.ijse.LA_CMS.Entity.OtherMaintains;
 import lk.ijse.LA_CMS.DAO.custom.impl.OtherMaintainDAOImpl;
 import lk.ijse.LA_CMS.util.Regex;
@@ -77,7 +80,7 @@ public class OtherMaintainsFromController {
     @FXML
     private JFXButton updateOtherMaintains;
 
-    OtherMaintainDAO otherMaintainDAO=new OtherMaintainDAOImpl();
+    OtherMaintainBO otherMaintainBO= (OtherMaintainBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.OTHER_MAINTAINS);
     public void initialize() throws ClassNotFoundException {
         setCellValueFactory();
         loadCustomerTable();
@@ -102,7 +105,7 @@ public class OtherMaintainsFromController {
 
     private void loadNextOrderId() throws ClassNotFoundException {
         try {
-            String currentId = otherMaintainDAO.currentId();
+            String currentId = otherMaintainBO.currentId();
             String nextId = nextId(currentId);
 
             omId.setText(nextId);
@@ -135,8 +138,8 @@ public class OtherMaintainsFromController {
         ObservableList<OtherMaintains> obList = FXCollections.observableArrayList();
 
         try {
-            List<OtherMaintains> otherMaintainsList = otherMaintainDAO.getAll();
-            for (OtherMaintains otherMaintains : otherMaintainsList) {
+            List<OtherMaintainsDTO> otherMaintainsList = otherMaintainBO.getAll();
+            for (OtherMaintainsDTO otherMaintains : otherMaintainsList) {
                 OtherMaintains tm = new OtherMaintains(
                         otherMaintains.getId(),
                         otherMaintains.getDescription(),
@@ -168,10 +171,10 @@ public class OtherMaintainsFromController {
         Date date = Date.valueOf(LocalDate.now());
         String amountText = amount.getText();
 
-        OtherMaintains otherMaintains = new OtherMaintains(idText,descriptionText,date,amountText);
+        OtherMaintainsDTO otherMaintains = new OtherMaintainsDTO(idText,descriptionText,date,amountText);
 
         try {
-            boolean isSaved = otherMaintainDAO.save(otherMaintains);
+            boolean isSaved = otherMaintainBO.save(otherMaintains);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintain is Saved!").show();
                 loadNextOrderId();
@@ -210,7 +213,7 @@ public class OtherMaintainsFromController {
         String id = omId.getText();
 
         try {
-            boolean isDeleted = otherMaintainDAO.delete(id);
+            boolean isDeleted = otherMaintainBO.delete(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintain is Removed!").show();
                 loadCustomerTable();
@@ -228,10 +231,10 @@ public class OtherMaintainsFromController {
         Date date = Date.valueOf(LocalDate.now());
         String amountText = amount.getText();
 
-        OtherMaintains otherMaintains = new OtherMaintains(idText,descriptionText,date,amountText);
+        OtherMaintainsDTO otherMaintains = new OtherMaintainsDTO(idText,descriptionText,date,amountText);
 
         try {
-            boolean isUpdated = otherMaintainDAO.update(otherMaintains);
+            boolean isUpdated = otherMaintainBO.update(otherMaintains);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintain is Updated!").show();
                 loadCustomerTable();

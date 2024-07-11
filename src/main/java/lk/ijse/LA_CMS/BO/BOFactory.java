@@ -1,6 +1,5 @@
 package lk.ijse.LA_CMS.BO;
 
-import lk.ijse.LA_CMS.BO.custom.FoodItemsBO;
 import lk.ijse.LA_CMS.BO.custom.Impl.*;
 
 public class BOFactory {
@@ -28,6 +27,8 @@ public class BOFactory {
                 return new KitchenWareBOImpl();
             case KITCHENWARE_MAINTAINS:
                 return new KitchenWareMaintainBOImpl();
+            case OTHER_MAINTAINS:
+                return new OtherMaintainBOImpl();
 
         }
         return null;

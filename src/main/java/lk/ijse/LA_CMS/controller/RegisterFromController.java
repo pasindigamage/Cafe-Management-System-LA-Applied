@@ -68,7 +68,7 @@ public class RegisterFromController {
 
         if(isValied()){
             registerDAO.save(new User(eid,uid,uname,pw));
-            new Alert(Alert.AlertType.ERROR, "Save una hutto user pakayawa!").show();
+            new Alert(Alert.AlertType.CONFIRMATION, "Registration successfully!").show();
             userName.clear();
             password.clear();
             userId.clear();

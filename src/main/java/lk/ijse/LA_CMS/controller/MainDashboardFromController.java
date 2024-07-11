@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.LA_CMS.DAO.SQLUtil;
 import lk.ijse.LA_CMS.db.DbConnection;
 
 import java.io.IOException;
@@ -80,8 +81,7 @@ public class MainDashboardFromController {
     @FXML
     private Label time;
 
-    public void initialize(){
-        //setGreetings();
+    public void initialize() throws SQLException {
         addHoverHandlers(employee);
         addHoverHandlers(menu);
         addHoverHandlers(order);
@@ -127,17 +127,13 @@ public class MainDashboardFromController {
         String greeting = (currentTime.getHour() < 12) ? "Good Morning !!!" :currentTime.getHour() < 18 ? "Good Afternoon !!!" : "Good Evening !!!";
         time.setText(greeting);
     }
-    private void displayTopPerformingFoodItems() {
-        String query = "SELECT fi.description AS foodDescription, SUM(od.qty) AS totalQuantityOrdered " +
-                "FROM orderDetails od " +
-                "JOIN FoodItems fi ON od.foodItemId = fi.id " +
-                "GROUP BY fi.description " +
-                "ORDER BY totalQuantityOrdered DESC " +
-                "LIMIT 5";
-
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
+    private void displayTopPerformingFoodItems() throws SQLException {
+      ResultSet resultSet= SQLUtil.execute("SELECT fi.description AS foodDescription, SUM(od.qty) AS totalQuantityOrdered " +
+              "FROM orderDetails od " +
+              "JOIN FoodItems fi ON od.foodItemId = fi.id " +
+              "GROUP BY fi.description " +
+              "ORDER BY totalQuantityOrdered DESC " +
+              "LIMIT 5;");
 
             if (resultSet.next()) {
                 first.setText(resultSet.getString("foodDescription") + " - " + resultSet.getInt("totalQuantityOrdered"));
@@ -154,10 +150,6 @@ public class MainDashboardFromController {
             if (resultSet.next()) {
                 three11.setText(resultSet.getString("foodDescription") + " - " + resultSet.getInt("totalQuantityOrdered"));
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
     @FXML
     void employeeOnAction(ActionEvent event) throws IOException {
